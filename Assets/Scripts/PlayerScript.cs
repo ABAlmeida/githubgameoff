@@ -8,7 +8,9 @@ public enum StateType
     eNone = 0,
     eGrounded = 1,
     eJumping = 2,
-    eFalling = 3
+    eFalling = 3,
+    eDead = 4,
+    eRespawn = 5
 }
 
 public class State
@@ -144,6 +146,45 @@ public class FallingState : State
     private PlayerScript m_playerScript;
 }
 
+public class DeadState : State
+{
+    public DeadState(PlayerScript playerScript) : base(StateType.eDead)
+    {
+        m_playerScript = playerScript;
+    }
+    public override void onStart() { base.onStart(); m_deadTime = 0.0f; }
+    public override void onUpdate()
+    {
+        m_deadTime += Time.deltaTime;
+
+        if (m_deadTime >= m_playerScript.Dead_Time)
+        {
+            m_nextState = StateType.eRespawn;
+        }
+    }
+    public override void onFinish() { base.onFinish(); }
+
+    private PlayerScript m_playerScript;
+    float m_deadTime;
+}
+
+public class RespawnState : State
+{
+    public RespawnState(PlayerScript playerScript) : base(StateType.eRespawn)
+    {
+        m_playerScript = playerScript;
+    }
+    public override void onStart() { base.onStart(); }
+    public override void onUpdate()
+    {
+        m_playerScript.transform.SetPositionAndRotation(new Vector3(0.0f, 1.0f), new Quaternion());
+        m_nextState = StateType.eFalling;
+    }
+    public override void onFinish() { base.onFinish(); }
+
+    private PlayerScript m_playerScript;
+}
+
 public class PlayerScript : MonoBehaviour
 {
     // Use this for initialization
@@ -153,28 +194,39 @@ public class PlayerScript : MonoBehaviour
         m_states.Add(new GroundedState(this));
         m_states.Add(new JumpingState(this));
         m_states.Add(new FallingState(this));
+        m_states.Add(new DeadState(this));
+        m_states.Add(new RespawnState(this));
 
         m_activeState = getState(StateType.eFalling);
 
         Distance_To_Ground = gameObject.GetComponent<BoxCollider2D>().bounds.extents.y;
+
+        m_nextStateType = StateType.eNone;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (m_activeState.isActivated())
+        if (m_nextStateType != StateType.eNone)
         {
-            m_activeState.onStart();
+            State nextState = getState(m_nextStateType);
+            m_activeState.onFinish();
+            m_activeState = nextState;
+            m_nextStateType = StateType.eNone;
         }
-
-        m_activeState.onUpdate();
-
-        if (m_activeState.GetNextState() != StateType.eNone)
+        else if (m_activeState.GetNextState() != StateType.eNone)
         {
             State nextState = getState(m_activeState.GetNextState());
             m_activeState.onFinish();
             m_activeState = nextState;
         }
+
+        if (!m_activeState.isActivated())
+        {
+            m_activeState.onStart();
+        }
+
+        m_activeState.onUpdate();
     }
 
     private State getState(StateType stateType)
@@ -210,6 +262,11 @@ public class PlayerScript : MonoBehaviour
         return false;
     }
 
+    public void SetNextState(StateType nextStateType)
+    {
+        m_nextStateType = nextStateType;
+    }
+
     public List<State> m_states;
     public State m_activeState;
 
@@ -217,6 +274,9 @@ public class PlayerScript : MonoBehaviour
     public int Walking_Speed = 2;
     public int Jump_Force = 20;
     public int Aerial_Mobility = 5;
+    public float Dead_Time = 2.0f;
 
     public float Distance_To_Ground;
+
+    private StateType m_nextStateType;
 }
