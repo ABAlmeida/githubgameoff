@@ -6,74 +6,46 @@ using UnityEngine;
 public enum StateType
 {
     eNone = 0,
-    eGrounded = 1,
+    eIdle = 1,
     eJumping = 2,
     eFalling = 3,
     eDead = 4,
-    eRespawn = 5
+    eRespawn = 5,
+    eWalking = 6,
+    eRunning = 7,
+    eGrapple = 8,
+    eWallSlide = 9
 }
 
 public class State
 {
     public State(StateType stateType) { m_stateType = stateType; } 
-    public virtual void onStart() { m_activated = true; m_active = true; }
+    public virtual void onStart() { m_active = true; }
     public virtual void onUpdate() { }
-    public virtual void onFinish() { m_activated = false; m_active = false; m_nextState = StateType.eNone; }
+    public virtual void onFinish() { m_active = false; }
 
     public StateType getStateType() { return m_stateType; }
-    public bool isActivated() { return m_activated; }
     public bool isActive() { return m_active; }
-    public StateType GetNextState() { return m_nextState; }
 
-    protected StateType m_nextState = StateType.eNone;
     private readonly StateType m_stateType;
-    private bool m_activated = false;
     private bool m_active = false;
 }
 
-public class GroundedState : State
+public class IdleState : State
 {
-    public GroundedState(PlayerScript playerScript) : base(StateType.eGrounded)
+    public IdleState(PlayerScript playerScript) : base(StateType.eIdle)
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); }
+    public override void onStart() { base.onStart(); m_playerScript.RefreshJumps(); }
     public override void onUpdate()
     {
         base.onUpdate();
 
-        float moveX = Input.GetAxis("Horizontal");
-        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-        int Player_Speed = m_playerScript.Running_Speed;
-
-        if ( Math.Abs(moveX) <= 0.7f )
-        {
-            Player_Speed =m_playerScript.Walking_Speed;
-        }
-
-        Vector2 Velocity = rigidbody2D.velocity;
-        if (moveX > 0)
-        {
-            Velocity.x = Player_Speed;
-        }
-        else if (moveX < 0)
-        {
-            Velocity.x = Player_Speed * -1;
-        }
-
-        rigidbody2D.velocity = Velocity;
-
-        if (Input.GetButton("Jump"))
-        {
-            rigidbody2D.AddForce(new Vector2(0.0f, m_playerScript.Jump_Force));
-            m_nextState = StateType.eJumping;
-        }
-
-        if (!m_playerScript.IsGrounded())
-        {
-            m_nextState = StateType.eFalling;
-        }
-
+        m_playerScript.Walk();
+        m_playerScript.Running();
+        m_playerScript.Falling();
+        m_playerScript.Jump();
     }
     public override void onFinish() { base.onFinish(); }
     
@@ -91,21 +63,15 @@ public class JumpingState : State
     {
         base.onUpdate();
 
-        float moveX = Input.GetAxis("Horizontal");
-        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-        
-        if (moveX > 0)
+        m_playerScript.AerialMove();
+
+        m_playerScript.Jump();
+
+        m_playerScript.Falling();
+
+        if(m_playerScript.IsOnWall())
         {
-            rigidbody2D.AddForce(new Vector2(m_playerScript.Aerial_Mobility, 0));
-        }
-        else if (moveX < 0)
-        {
-            rigidbody2D.AddForce(new Vector2(m_playerScript.Aerial_Mobility * -1, 0));
-        }
-        
-        if (rigidbody2D.velocity.y < 0.0f)
-        {
-            m_nextState = StateType.eFalling;
+            m_playerScript.SetNextState(StateType.eWallSlide);
         }
     }
     public override void onFinish() { base.onFinish(); }
@@ -124,22 +90,11 @@ public class FallingState : State
     {
         base.onUpdate();
 
-        float moveX = Input.GetAxis("Horizontal");
-        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
+        m_playerScript.AerialMove();
 
-        if (moveX > 0)
-        {
-            rigidbody2D.AddForce(new Vector2(m_playerScript.Aerial_Mobility, 0));
-        }
-        else if (moveX < 0)
-        {
-            rigidbody2D.AddForce(new Vector2(m_playerScript.Aerial_Mobility * -1, 0));
-        }
-        
-        if (m_playerScript.IsGrounded())
-        {
-            m_nextState = StateType.eGrounded;
-        }
+        m_playerScript.Jump();
+
+        m_playerScript.Falling();
     }
     public override void onFinish() { base.onFinish(); }
 
@@ -159,7 +114,7 @@ public class DeadState : State
 
         if (m_deadTime >= m_playerScript.Dead_Time)
         {
-            m_nextState = StateType.eRespawn;
+            m_playerScript.SetNextState(StateType.eRespawn);
         }
     }
     public override void onFinish() { base.onFinish(); }
@@ -178,7 +133,97 @@ public class RespawnState : State
     public override void onUpdate()
     {
         m_playerScript.transform.SetPositionAndRotation(new Vector3(0.0f, 1.0f), new Quaternion());
-        m_nextState = StateType.eFalling;
+        m_playerScript.SetNextState(StateType.eFalling);
+    }
+    public override void onFinish() { base.onFinish(); }
+
+    private PlayerScript m_playerScript;
+}
+
+public class WalkingState : State
+{
+    public WalkingState(PlayerScript playerScript) : base(StateType.eWalking)
+    {
+        m_playerScript = playerScript;
+    }
+    public override void onStart() { base.onStart(); }
+    public override void onUpdate()
+    {
+        m_playerScript.Running();
+        m_playerScript.Walk();
+        m_playerScript.Jump();
+        m_playerScript.Falling();
+        m_playerScript.Idle();
+    }
+    public override void onFinish() { base.onFinish(); }
+
+    private PlayerScript m_playerScript;
+}
+
+public class RunningState : State
+{
+    public RunningState(PlayerScript playerScript) : base(StateType.eRunning)
+    {
+        m_playerScript = playerScript;
+    }
+    public override void onStart() { base.onStart(); }
+    public override void onUpdate()
+    {
+        m_playerScript.Running();
+        m_playerScript.Walk();
+        m_playerScript.Jump();
+        m_playerScript.Falling();
+        m_playerScript.Idle();
+    }
+    public override void onFinish() { base.onFinish(); }
+
+    private PlayerScript m_playerScript;
+}
+
+public class GrapplingState : State
+{
+    public GrapplingState(PlayerScript playerScript) : base(StateType.eGrapple)
+    {
+        m_playerScript = playerScript;
+    }
+    public override void onStart() { base.onStart(); }
+    public override void onUpdate()
+    {
+        if (m_playerScript.IsGrapplingWall())
+        {
+            Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
+            rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
+            rigidbody2D.isKinematic = true;
+        }
+
+        m_playerScript.WallJump();
+
+        m_playerScript.Falling();
+    }
+    public override void onFinish() { base.onFinish(); }
+
+    private PlayerScript m_playerScript;
+}
+
+public class WallSlidingState : State
+{
+    public WallSlidingState(PlayerScript playerScript) : base(StateType.eWallSlide)
+    {
+        m_playerScript = playerScript;
+    }
+    public override void onStart() { base.onStart(); }
+    public override void onUpdate()
+    {
+        if (m_playerScript.IsGrapplingWall())
+        {
+            m_playerScript.SetNextState(StateType.eGrapple);
+        }
+
+        m_playerScript.AerialMove();
+
+        m_playerScript.WallJump();
+
+        m_playerScript.Falling();
     }
     public override void onFinish() { base.onFinish(); }
 
@@ -191,11 +236,15 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         m_states = new List<State>();
-        m_states.Add(new GroundedState(this));
+        m_states.Add(new IdleState(this));
+        m_states.Add(new WalkingState(this));
+        m_states.Add(new RunningState(this));
         m_states.Add(new JumpingState(this));
         m_states.Add(new FallingState(this));
         m_states.Add(new DeadState(this));
         m_states.Add(new RespawnState(this));
+        m_states.Add(new GrapplingState(this));
+        m_states.Add(new WallSlidingState(this));
 
         m_activeState = getState(StateType.eFalling);
 
@@ -214,14 +263,8 @@ public class PlayerScript : MonoBehaviour
             m_activeState = nextState;
             m_nextStateType = StateType.eNone;
         }
-        else if (m_activeState.GetNextState() != StateType.eNone)
-        {
-            State nextState = getState(m_activeState.GetNextState());
-            m_activeState.onFinish();
-            m_activeState = nextState;
-        }
 
-        if (!m_activeState.isActivated())
+        if (!m_activeState.isActive())
         {
             m_activeState.onStart();
         }
@@ -240,6 +283,87 @@ public class PlayerScript : MonoBehaviour
         }
 
         return new State(StateType.eNone);
+    }
+
+    public bool CanJump()
+    {
+        if (!m_hasReleasedJump)
+        {
+            return false;
+        }
+
+        switch (m_activeState.getStateType())
+        {
+            case StateType.eNone:
+            case StateType.eDead:
+            case StateType.eRespawn:
+                break;
+            case StateType.eIdle:
+            case StateType.eWalking:
+            case StateType.eRunning:
+                return true;
+            case StateType.eJumping:
+            case StateType.eFalling:
+                if (m_numberOfJumpsUsed < Number_Of_Jumps)
+                {
+                    return true;
+                }
+                break;
+            case StateType.eGrapple:
+            case StateType.eWallSlide:
+                return true;
+        }
+
+        return false;
+    }
+    public void Jump()
+    {
+        if (Input.GetButton("Jump"))
+        {
+            if (CanJump())
+            {
+                Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+                rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0.0f);
+                rigidbody2D.AddForce(new Vector2(0.0f, Jump_Force));
+                SetNextState(StateType.eJumping);
+                m_hasReleasedJump = false;
+                m_numberOfJumpsUsed += 1;
+            }
+        }
+        else
+        {
+            m_hasReleasedJump = true;
+        }
+    }
+
+    public void WallJump()
+    {
+        if (Input.GetButton("Jump"))
+        {
+            if (CanJump())
+            {
+                Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+                rigidbody2D.isKinematic = false;
+                Vector2 WallJump = new Vector2(Wall_Jump_Force.x, Wall_Jump_Force.y);
+                if (IsOnRightWall())
+                {
+                    WallJump.x *= -1.0f;
+                }
+                rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
+                rigidbody2D.AddForce(WallJump);
+                SetNextState(StateType.eJumping);
+                m_hasReleasedJump = false;
+            }
+        }
+        else
+        {
+            m_hasReleasedJump = true;
+        }
+    }
+
+    public void RefreshJumps()
+    {
+        m_numberOfJumpsUsed = 0;
     }
 
     public bool IsGrounded()
@@ -262,9 +386,175 @@ public class PlayerScript : MonoBehaviour
         return false;
     }
 
+    public bool IsOnLeftWall()
+    {
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
+                                                        Vector2.left,
+                                                         collider2D.bounds.extents.x + 0.1f,
+                                                        LayerMask.GetMask("Environment"));
+
+        if (isLeftWall 
+            && rigidbody2D.velocity.x >= 0.0f)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsOnRightWall()
+    {
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
+                                                        Vector2.right,
+                                                         collider2D.bounds.extents.x + 0.1f,
+                                                        LayerMask.GetMask("Environment"));
+
+        if (isLeftWall
+            && rigidbody2D.velocity.x <= 0.0f)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsOnWall()
+    {
+        if ( (IsOnLeftWall() || IsOnRightWall()))
+        {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public bool IsGrapplingWall()
+    {
+        if (IsOnWall()
+            && Input.GetAxis("Grapple") > 0.0f)
+        {
+            SetNextState(StateType.eGrapple);
+            return true;
+        }
+
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2D.isKinematic = false;
+        return false;
+    }
+
+    public void Idle()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+
+        if (IsGrounded() 
+            && Math.Abs(moveX) == 0.0f)
+        {
+            SetNextState(StateType.eIdle);
+        }
+    }
+
+    public void Walk()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+
+        if (Math.Abs(moveX) <= 0.7f
+            && Math.Abs(moveX) > 0.0f)
+        {
+            Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+            Vector2 Velocity = rigidbody2D.velocity;
+            if (moveX > 0)
+            {
+                Velocity.x = Walking_Speed;
+            }
+            else if (moveX < 0)
+            {
+                Velocity.x = Walking_Speed * -1;
+            }
+            rigidbody2D.velocity = Velocity;
+            SetNextState(StateType.eWalking);
+        }
+    }
+
+    public void Running()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+
+        if (Math.Abs(moveX) > 0.7f)
+        {
+            Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+            Vector2 Velocity = rigidbody2D.velocity;
+            if (moveX > 0)
+            {
+                Velocity.x = Running_Speed;
+            }
+            else if (moveX < 0)
+            {
+                Velocity.x = Running_Speed * -1;
+            }
+            rigidbody2D.velocity = Velocity;
+            SetNextState(StateType.eRunning);
+        }
+    }
+
+    public void Falling()
+    {
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        Vector2 Velocity = rigidbody2D.velocity;
+        if (!IsGrounded()
+            && Velocity.y < 0)
+        {
+            if (IsOnWall())
+            {
+                SetNextState(StateType.eWallSlide);
+            }
+            else
+            {
+                SetNextState(StateType.eFalling);
+            }
+        }
+
+        if (IsGrounded())
+        {
+            switch (m_activeState.getStateType())
+            {
+                case StateType.eJumping:
+                case StateType.eRunning:
+                case StateType.eWalking:
+                case StateType.eIdle:
+                    break;
+                default:
+                    SetNextState(StateType.eIdle);
+                    break;
+            }            
+        }
+    }
+
+    public void AerialMove()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+
+        if (moveX > 0)
+        {
+            rigidbody2D.AddForce(new Vector2(Aerial_Mobility, 0));
+        }
+        else if (moveX < 0)
+        {
+            rigidbody2D.AddForce(new Vector2(Aerial_Mobility * -1, 0));
+        }
+    }
+
     public void SetNextState(StateType nextStateType)
     {
-        m_nextStateType = nextStateType;
+        if (nextStateType != m_activeState.getStateType())
+        {
+            Debug.Log(nextStateType);
+            m_nextStateType = nextStateType;
+        }
     }
 
     public List<State> m_states;
@@ -275,8 +565,12 @@ public class PlayerScript : MonoBehaviour
     public int Jump_Force = 20;
     public int Aerial_Mobility = 5;
     public float Dead_Time = 2.0f;
+    public int Number_Of_Jumps = 2;
+    public Vector2 Wall_Jump_Force = new Vector2(200.0f, 20.0f);
 
     public float Distance_To_Ground;
 
     private StateType m_nextStateType;
+    private int m_numberOfJumpsUsed = 0;
+    private bool m_hasReleasedJump = true;
 }
