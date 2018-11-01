@@ -950,9 +950,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47c7ef4d64d3314ea2215acb893c4b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Smooth_Speed: 0.15
+  dampTime: 0.3
   target: {fileID: 1583880396}
-  Offset: {x: 3, y: 3, z: -10}
 --- !u!1 &2065272486
 GameObject:
   m_ObjectHideFlags: 0
