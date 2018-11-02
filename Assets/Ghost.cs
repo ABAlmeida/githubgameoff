@@ -4,24 +4,48 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
-    
-	// Use this for initialization
-	void Start ()
-    {
+    private bool m_isActive = false;
+    private GameObject[] m_ghostObjects;
+    private GameObject[] m_realObjects;
 
-	}
+    // Use this for initialization
+    void Start ()
+    {
+        m_ghostObjects = GameObject.FindGameObjectsWithTag("Ghost");
+        m_realObjects = GameObject.FindGameObjectsWithTag("Real");
+
+        SetActiveOnArray(m_ghostObjects, false);
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetAxis("Ghost") > 0.0f)
+        float ghosting = Input.GetAxis("Ghost");
+
+        if (!m_isActive
+            && ghosting > 0.0f)
         {
-            gameObject.SetActive(true);
+            SetActiveOnArray(m_ghostObjects, true);
+            SetActiveOnArray(m_realObjects, false);
+
+            m_isActive = true;
         }
 
-        if (Input.GetAxis("Ghost") == 0.0f)
+        if (m_isActive
+            && ghosting == 0.0f)
         {
-            gameObject.SetActive(false);
+            SetActiveOnArray(m_ghostObjects, false);
+            SetActiveOnArray(m_realObjects, true);
+
+            m_isActive = false;
+        }
+    }
+
+    void SetActiveOnArray(GameObject[] objectArray, bool value)
+    {
+        foreach (GameObject _gameObject in objectArray)
+        {
+            _gameObject.SetActive(value);
         }
     }
 }
