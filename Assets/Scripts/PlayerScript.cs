@@ -396,7 +396,7 @@ public class PlayerScript : MonoBehaviour
                                                         LayerMask.GetMask("Environment"));
 
         if (isLeftWall 
-            && rigidbody2D.velocity.x >= 0.0f)
+            && rigidbody2D.velocity.x <= 0.0f)
         {
             return true;
         }
@@ -408,13 +408,13 @@ public class PlayerScript : MonoBehaviour
     {
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
-        RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
+        RaycastHit2D isRightWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.right,
                                                          collider2D.bounds.extents.x + 0.1f,
                                                         LayerMask.GetMask("Environment"));
 
-        if (isLeftWall
-            && rigidbody2D.velocity.x <= 0.0f)
+        if (isRightWall
+            && rigidbody2D.velocity.x >= 0.0f)
         {
             return true;
         }
