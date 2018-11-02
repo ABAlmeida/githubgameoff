@@ -702,7 +702,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 1
+  m_LinearDrag: 6
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -806,15 +806,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2042701e5f8e17540aeedd554132303d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Running_Speed: 6
-  Walking_Speed: 2
-  Jump_Force: 450
+  Running_Speed: 10
+  Walking_Speed: 4
+  Jump_Force: 800
   Aerial_Mobility: 40
   Dead_Time: 2
-  Number_Of_Jumps: 1
-  Wall_Jump_Force: {x: 200, y: 400}
+  Number_Of_Jumps: 2
+  Wall_Jump_Force: {x: 600, y: 600}
   Climb_Speed: 2
-  Fall_Scale: 4
+  Fall_Scale: 8
   Distance_To_Ground: 0
 --- !u!1001 &1731846983
 Prefab:
