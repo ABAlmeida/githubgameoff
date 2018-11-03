@@ -100,6 +100,11 @@ public class FallingState : State
         m_playerScript.Jump();
 
         m_playerScript.Falling();
+
+        if (m_playerScript.gameObject.GetComponent<Rigidbody2D>().velocity.y == 0.0f)
+        {
+            m_playerScript.SetNextState(StateType.eFalling);
+        }
     }
     public override void onFinish() { base.onFinish(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f; }
 
