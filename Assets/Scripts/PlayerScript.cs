@@ -38,7 +38,7 @@ public class IdleState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.RefreshJumps(); }
+    public override void onStart() { base.onStart(); m_playerScript.RefreshJumps(); m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Idle"); }
     public override void onUpdate()
     {
         base.onUpdate();
@@ -63,7 +63,7 @@ public class JumpingState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); }
+    public override void onStart() { base.onStart(); m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump"); }
     public override void onUpdate()
     {
         base.onUpdate();
@@ -180,7 +180,7 @@ public class RunningState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); }
+    public override void onStart() { base.onStart(); m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run"); }
     public override void onUpdate()
     {
         m_playerScript.Running();
@@ -336,6 +336,7 @@ public class PlayerScript : MonoBehaviour
             m_activeState.onStart();
         }
 
+        IsChangingDirection();
         m_activeState.onUpdate();
     }
 
@@ -438,13 +439,13 @@ public class PlayerScript : MonoBehaviour
     {
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
-        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x, rigidbody2D.position.y),
+        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x, rigidbody2D.position.y - Distance_To_Ground),
                                                         -Vector2.up,
-                                                        Distance_To_Ground + 0.1f,
+                                                        0.1f,
                                                         LayerMask.GetMask("Environment"));
-        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x, rigidbody2D.position.y), 
+        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x, rigidbody2D.position.y - Distance_To_Ground), 
                                                         -Vector2.up, 
-                                                        Distance_To_Ground + 0.1f, 
+                                                        0.1f, 
                                                         LayerMask.GetMask("Environment"));
         if (isLeftGrounded || isRightGrounded)
         {
@@ -639,6 +640,24 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log(nextStateType);
             m_nextStateType = nextStateType;
+        }
+    }
+
+    public void IsChangingDirection()
+    {
+        Vector2 velocity = gameObject.GetComponent<Rigidbody2D>().velocity;
+        Transform transform = gameObject.GetComponent<Transform>();
+        Vector2 localScale = transform.localScale;
+
+        if (localScale.x > 0.0f && velocity.x < 0.0f)
+        {
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
+        else if (localScale.x < 0.0f && velocity.x > 0.0f)
+        {
+            localScale.x *= -1;
+            transform.localScale = localScale;
         }
     }
 
