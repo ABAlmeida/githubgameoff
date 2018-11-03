@@ -808,14 +808,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Running_Speed: 10
   Walking_Speed: 4
-  Jump_Force: 800
+  Jump_Force: 1350
   Aerial_Mobility: 40
   Dead_Time: 2
-  Number_Of_Jumps: 2
+  Number_Of_Jumps: 1
   Wall_Jump_Force: {x: 600, y: 600}
   Climb_Speed: 2
   Fall_Scale: 8
-  Distance_To_Ground: 0
+  Distance_To_Ground: 0.31999996
 --- !u!1001 &1731846983
 Prefab:
   m_ObjectHideFlags: 0
