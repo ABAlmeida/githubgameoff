@@ -11,7 +11,7 @@ public class JumpingState : State
     public override void onStart()
     {
         base.onStart();
-        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump");
+        //m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump");
 
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0.0f);

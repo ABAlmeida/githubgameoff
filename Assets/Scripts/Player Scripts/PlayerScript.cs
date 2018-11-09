@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour
         m_states.Add(new WallSlidingState(this));
         m_states.Add(new ClimbingState(this));
         m_states.Add(new WallJumpingState(this));
+        m_states.Add(new UncontrollableState(this));
 
         m_activeState = getState(StateType.eFalling);
 
@@ -149,11 +150,10 @@ public class PlayerScript : MonoBehaviour
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.left,
-                                                         collider2D.bounds.extents.x + 0.1f,
+                                                         collider2D.bounds.extents.x + 0.2f,
                                                         LayerMask.GetMask("Environment"));
 
-        if (isLeftWall 
-            && rigidbody2D.velocity.x <= 0.0f)
+        if (isLeftWall)
         {
             return true;
         }
@@ -167,11 +167,10 @@ public class PlayerScript : MonoBehaviour
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isRightWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.right,
-                                                         collider2D.bounds.extents.x + 0.1f,
+                                                         collider2D.bounds.extents.x + 0.2f,
                                                         LayerMask.GetMask("Environment"));
 
-        if (isRightWall
-            && rigidbody2D.velocity.x >= 0.0f)
+        if (isRightWall)
         {
             return true;
         }

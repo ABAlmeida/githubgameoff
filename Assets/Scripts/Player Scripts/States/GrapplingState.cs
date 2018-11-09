@@ -8,7 +8,11 @@ public class GrapplingState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f; }
+    public override void onStart()
+    {
+        base.onStart();
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+    }
     public override void onUpdate()
     {
         if (m_playerScript.IsGrapplingWall())
@@ -21,12 +25,20 @@ public class GrapplingState : State
                 m_playerScript.SetNextState(StateType.eClimbing);
             }
         }
+        else
+        {
+            m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+        }
 
         m_playerScript.IsWallJumping();
 
         m_playerScript.Falling();
     }
-    public override void onFinish() { base.onFinish(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f; }
+    public override void onFinish()
+    {
+        base.onFinish();
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+    }
 
     private PlayerScript m_playerScript;
 }

@@ -9,7 +9,7 @@ public class RunningState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run"); m_playerScript.RefreshJumps(); }
+    public override void onStart() { base.onStart(); /* m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run"); */ m_playerScript.RefreshJumps(); }
     public override void onUpdate()
     {
         float moveX = Input.GetAxis("Horizontal");
