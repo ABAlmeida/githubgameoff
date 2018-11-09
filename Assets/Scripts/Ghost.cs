@@ -46,6 +46,14 @@ public class Ghost : MonoBehaviour
         foreach (GameObject _gameObject in objectArray)
         {
             _gameObject.SetActive(value);
+            if (value)
+            {
+                _gameObject.GetComponent<Fade>().FadeIn();
+            }
+            else
+            {
+                _gameObject.GetComponent<Fade>().FadeOut();
+            }
         }
     }
 }

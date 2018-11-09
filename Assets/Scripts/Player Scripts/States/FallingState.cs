@@ -18,6 +18,11 @@ public class FallingState : State
         m_playerScript.IsJumping();
 
         m_playerScript.Falling();
+
+        if (m_playerScript.m_numberOfJumpsUsed == 0)
+        {
+            m_playerScript.m_numberOfJumpsUsed = 1;
+        }
     }
     public override void onFinish() { base.onFinish(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f; }
 
