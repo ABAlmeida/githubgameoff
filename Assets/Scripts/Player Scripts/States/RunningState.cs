@@ -9,7 +9,21 @@ public class RunningState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); /* m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run"); */ m_playerScript.RefreshJumps(); }
+    public override void onStart()
+    {
+        base.onStart();
+        /* m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run"); */
+        if (m_playerScript.GetComponent<Rigidbody2D>().velocity.x < 0.0f)
+        {
+            m_playerScript.m_particleSystemLeft.Play();
+        }
+        else
+        {
+            m_playerScript.m_particleSystemRight.Play();
+        }
+        m_playerScript.RefreshJumps();
+    }
+
     public override void onUpdate()
     {
         float moveX = Input.GetAxis("Horizontal");
@@ -38,7 +52,12 @@ public class RunningState : State
         }
         m_playerScript.IsIdle();
     }
-    public override void onFinish() { base.onFinish(); }
+    public override void onFinish()
+    {
+        base.onFinish();
+        m_playerScript.m_particleSystemLeft.Stop();
+        m_playerScript.m_particleSystemRight.Stop();
+    }
 
     private PlayerScript m_playerScript;
 }

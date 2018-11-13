@@ -24,7 +24,25 @@ public class FallingState : State
             m_playerScript.m_numberOfJumpsUsed = 1;
         }
     }
-    public override void onFinish() { base.onFinish(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f; }
+    public override void onFinish()
+    {
+        base.onFinish();
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+
+        if (m_playerScript.IsGrounded())
+        {
+            var iv = m_playerScript.m_particleSystemLeft.inheritVelocity; //.enabled = false;
+            iv.enabled = false;
+            iv = m_playerScript.m_particleSystemRight.inheritVelocity; //.enabled = false;
+            iv.enabled = false;
+            m_playerScript.m_particleSystemLeft.Emit(20);
+            m_playerScript.m_particleSystemRight.Emit(20);
+            iv = m_playerScript.m_particleSystemLeft.inheritVelocity; //.enabled = false;
+            iv.enabled = true;
+            iv = m_playerScript.m_particleSystemRight.inheritVelocity; //.enabled = false;
+            iv.enabled = true;
+        }
+    }
 
     private PlayerScript m_playerScript;
 }

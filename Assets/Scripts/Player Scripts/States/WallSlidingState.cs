@@ -8,7 +8,19 @@ public class WallSlidingState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale; }
+    public override void onStart()
+    {
+        base.onStart();
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale;
+        if (m_playerScript.IsOnLeftWall())
+        {
+            m_playerScript.m_particleSystemLeft.Play();
+        }
+        else
+        {
+            m_playerScript.m_particleSystemRight.Play();
+        }
+    }
     public override void onUpdate()
     {
         if (m_playerScript.IsGrapplingWall())
@@ -22,7 +34,13 @@ public class WallSlidingState : State
 
         m_playerScript.Falling();
     }
-    public override void onFinish() { base.onFinish(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f; }
+    public override void onFinish()
+    {
+        base.onFinish();
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+        m_playerScript.m_particleSystemLeft.Stop();
+        m_playerScript.m_particleSystemRight.Stop();
+    }
 
     private PlayerScript m_playerScript;
 }

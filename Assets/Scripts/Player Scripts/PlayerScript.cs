@@ -360,4 +360,6 @@ public class PlayerScript : MonoBehaviour
     private StateType m_nextStateType;
     [NonSerialized] public int m_numberOfJumpsUsed = 0;
     [NonSerialized] public bool m_hasReleasedJump = true;
+    public ParticleSystem m_particleSystemLeft;
+    public ParticleSystem m_particleSystemRight;
 }
