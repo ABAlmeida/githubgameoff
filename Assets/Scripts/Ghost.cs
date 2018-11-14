@@ -25,8 +25,8 @@ public class Ghost : MonoBehaviour
         if (!m_isActive
             && ghosting > 0.0f)
         {
-            SetActiveOnArray(m_ghostObjects, true);
-            SetActiveOnArray(m_realObjects, false);
+            SetFadeOnArray(m_ghostObjects, true);
+            SetFadeOnArray(m_realObjects, false);
 
             m_isActive = true;
         }
@@ -34,21 +34,21 @@ public class Ghost : MonoBehaviour
         if (m_isActive
             && ghosting == 0.0f)
         {
-            SetActiveOnArray(m_ghostObjects, false);
-            SetActiveOnArray(m_realObjects, true);
+            SetFadeOnArray(m_ghostObjects, false);
+            SetFadeOnArray(m_realObjects, true);
 
             m_isActive = false;
         }
     }
 
-    void SetActiveOnArray(GameObject[] objectArray, bool value)
+    void SetFadeOnArray(GameObject[] objectArray, bool value)
     {
         foreach (GameObject _gameObject in objectArray)
         {
-            _gameObject.SetActive(value);
             if (value)
             {
                 _gameObject.GetComponent<Fade>().FadeIn();
+                _gameObject.SetActive(true);
             }
             else
             {
@@ -56,4 +56,12 @@ public class Ghost : MonoBehaviour
             }
         }
     }
+    void SetActiveOnArray(GameObject[] objectArray, bool value)
+    {
+        foreach (GameObject _gameObject in objectArray)
+        {
+            _gameObject.SetActive(value);
+        }
+    }
+
 }

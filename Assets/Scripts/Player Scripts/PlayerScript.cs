@@ -308,7 +308,7 @@ public class PlayerScript : MonoBehaviour
 
     public bool HasReleasedJump()
     {
-        if (Input.GetAxis("Jump") == 0.0f)
+        if (Input.GetButtonUp("Jump"))
         {
             m_hasReleasedJump = true;
             return true;

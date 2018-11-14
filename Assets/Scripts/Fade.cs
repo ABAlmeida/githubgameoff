@@ -31,16 +31,23 @@ public class Fade : MonoBehaviour
                 fadingIn = false;
             }
         }
-        else if (fadingOut == true)
+
+        if (fadingOut == true)
         {
             SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
             secondsPassed += Time.deltaTime;
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (1.0f - secondsPassed));
 
+            if (secondsPassed >= 0.2f)
+            {
+                setPhysicsActive(false);
+            }
+
             if (secondsPassed >= 1.0f)
             {
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
                 fadingOut = false;
+                gameObject.SetActive(false);
             }
         }
     }
@@ -49,8 +56,11 @@ public class Fade : MonoBehaviour
     {
         secondsPassed = 0.0f;
         fadingIn = true;
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        fadingOut = false;
 
+        setPhysicsActive(true);
+
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0 );
     }
 
@@ -58,8 +68,25 @@ public class Fade : MonoBehaviour
     {
         secondsPassed = 0.0f;
         fadingOut = true;
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        fadingIn = false;
 
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 255);
+    }
+
+    public void setPhysicsActive(bool value)
+    {
+        BoxCollider2D bc2d = gameObject.GetComponent<BoxCollider2D>();
+        EdgeCollider2D ec2d = gameObject.GetComponent<EdgeCollider2D>();
+
+        if (bc2d)
+        {
+            bc2d.enabled = value;
+        }
+
+        if (ec2d)
+        {
+            ec2d.enabled = value;
+        }
     }
 }

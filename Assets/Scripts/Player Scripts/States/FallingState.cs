@@ -31,15 +31,15 @@ public class FallingState : State
 
         if (m_playerScript.IsGrounded())
         {
-            var iv = m_playerScript.m_particleSystemLeft.inheritVelocity; //.enabled = false;
+            var iv = m_playerScript.m_particleSystemLeft.inheritVelocity;
             iv.enabled = false;
-            iv = m_playerScript.m_particleSystemRight.inheritVelocity; //.enabled = false;
+            iv = m_playerScript.m_particleSystemRight.inheritVelocity;
             iv.enabled = false;
             m_playerScript.m_particleSystemLeft.Emit(20);
             m_playerScript.m_particleSystemRight.Emit(20);
-            iv = m_playerScript.m_particleSystemLeft.inheritVelocity; //.enabled = false;
+            iv = m_playerScript.m_particleSystemLeft.inheritVelocity;
             iv.enabled = true;
-            iv = m_playerScript.m_particleSystemRight.inheritVelocity; //.enabled = false;
+            iv = m_playerScript.m_particleSystemRight.inheritVelocity;
             iv.enabled = true;
         }
     }
