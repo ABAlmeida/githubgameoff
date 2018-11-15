@@ -8,7 +8,12 @@ public class ClimbingState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); }
+    public override void onStart()
+    {
+        base.onStart();
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_WallClimb");
+    }
+
     public override void onUpdate()
     {
         float Climb = Input.GetAxis("Climb");
@@ -36,6 +41,16 @@ public class ClimbingState : State
             velocity = new Vector2(0.0f, 0.0f);
             m_playerScript.SetNextState(StateType.eWallSlide);
         }
+
+        if (m_playerScript.IsOnLeftWall())
+        {
+            m_playerScript.FaceLeft();
+        }
+        else
+        {
+            m_playerScript.FaceRight();
+        }
+
         rigidbody2D.velocity = velocity;
 
         m_playerScript.IsWallJumping();

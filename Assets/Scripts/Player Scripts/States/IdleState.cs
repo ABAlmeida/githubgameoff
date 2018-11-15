@@ -8,7 +8,13 @@ public class IdleState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.RefreshJumps(); /* m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Idle"); */ }
+    public override void onStart()
+    {
+        base.onStart();
+        m_playerScript.RefreshJumps();
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Idle 0");
+    }
+
     public override void onUpdate()
     {
         base.onUpdate();

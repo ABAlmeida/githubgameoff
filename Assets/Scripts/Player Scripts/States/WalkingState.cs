@@ -9,7 +9,13 @@ public class WalkingState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.RefreshJumps(); }
+    public override void onStart()
+    {
+        base.onStart();
+        m_playerScript.RefreshJumps();
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Walk");
+    }
+
     public override void onUpdate()
     {
         float moveX = Input.GetAxis("Horizontal");
@@ -32,7 +38,6 @@ public class WalkingState : State
         }
 
         m_playerScript.IsRunning();
-        m_playerScript.IsWalking();
         m_playerScript.IsJumping();
         m_playerScript.Falling();
         if (m_playerScript.IsGrapplingWall())

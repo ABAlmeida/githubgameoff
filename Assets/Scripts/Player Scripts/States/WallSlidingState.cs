@@ -11,6 +11,8 @@ public class WallSlidingState : State
     public override void onStart()
     {
         base.onStart();
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_WallCling");
+
         m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale;
         if (m_playerScript.IsOnLeftWall())
         {
@@ -26,6 +28,15 @@ public class WallSlidingState : State
         if (m_playerScript.IsGrapplingWall())
         {
             m_playerScript.SetNextState(StateType.eGrapple);
+        }
+
+        if (m_playerScript.IsOnLeftWall())
+        {
+            m_playerScript.FaceLeft();
+        }
+        else
+        {
+            m_playerScript.FaceRight();
         }
 
         m_playerScript.AerialMove();

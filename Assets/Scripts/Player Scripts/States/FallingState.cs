@@ -8,7 +8,13 @@ public class FallingState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale; }
+    public override void onStart()
+    {
+        base.onStart();
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale;
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Fall");
+    }
+
     public override void onUpdate()
     {
         base.onUpdate();

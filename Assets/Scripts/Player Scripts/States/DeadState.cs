@@ -8,7 +8,12 @@ public class DeadState : State
     {
         m_playerScript = playerScript;
     }
-    public override void onStart() { base.onStart(); m_deadTime = 0.0f; }
+    public override void onStart()
+    {
+        base.onStart();
+        m_deadTime = 0.0f;
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Death");
+    }
     public override void onUpdate()
     {
         m_deadTime += Time.deltaTime;

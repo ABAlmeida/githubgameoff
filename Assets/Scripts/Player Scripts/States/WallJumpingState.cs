@@ -11,6 +11,7 @@ public class WallJumpingState : State
     public override void onStart()
     {
         base.onStart();
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump 0");
 
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         Vector2 WallJump = new Vector2(m_playerScript.Wall_Jump_Force.x, m_playerScript.Wall_Jump_Force.y);
@@ -28,7 +29,10 @@ public class WallJumpingState : State
 
         m_playerScript.Falling();
 
-        if (m_playerScript.IsOnWall())
+        Vector2 velocity = m_playerScript.gameObject.GetComponent<Rigidbody2D>().velocity;
+
+        if ((m_playerScript.IsOnLeftWall() && velocity.x < 0.0f)
+            || (m_playerScript.IsOnRightWall() && velocity.x > 0.0f))
         {
             m_playerScript.SetNextState(StateType.eWallSlide);
         }

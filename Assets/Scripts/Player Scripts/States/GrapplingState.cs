@@ -12,6 +12,7 @@ public class GrapplingState : State
     {
         base.onStart();
         m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_WallCling");
     }
     public override void onUpdate()
     {
@@ -28,6 +29,15 @@ public class GrapplingState : State
         else
         {
             m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+        }
+
+        if (m_playerScript.IsOnLeftWall())
+        {
+            m_playerScript.FaceLeft();
+        }
+        else
+        {
+            m_playerScript.FaceRight();
         }
 
         m_playerScript.IsWallJumping();

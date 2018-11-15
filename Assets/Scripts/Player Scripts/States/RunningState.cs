@@ -12,7 +12,7 @@ public class RunningState : State
     public override void onStart()
     {
         base.onStart();
-        /* m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run"); */
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Run 0");
         if (m_playerScript.GetComponent<Rigidbody2D>().velocity.x < 0.0f)
         {
             m_playerScript.m_particleSystemLeft.Play();

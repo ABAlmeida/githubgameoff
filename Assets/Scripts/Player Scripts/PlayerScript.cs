@@ -308,7 +308,7 @@ public class PlayerScript : MonoBehaviour
 
     public bool HasReleasedJump()
     {
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetAxis("Jump") == 0.0f)
         {
             m_hasReleasedJump = true;
             return true;
@@ -329,20 +329,38 @@ public class PlayerScript : MonoBehaviour
     public void IsChangingDirection()
     {
         Vector2 velocity = gameObject.GetComponent<Rigidbody2D>().velocity;
+        
+        if (velocity.x < 0.0f) // Change to Face Left
+        {
+            FaceLeft();
+        }
+        else if (velocity.x > 0.0f) // Change to Face right
+        {
+            FaceRight();
+        }
+    }
+
+    public void FaceLeft()
+    {
         Transform transform = gameObject.GetComponent<Transform>();
         Vector2 localScale = transform.localScale;
-
-        if (localScale.x > 0.0f && velocity.x < 0.0f)
-        {
-            localScale.x *= -1;
-            transform.localScale = localScale;
-        }
-        else if (localScale.x < 0.0f && velocity.x > 0.0f)
+        if (localScale.x > 0.0f) // Change to Face Left
         {
             localScale.x *= -1;
             transform.localScale = localScale;
         }
     }
+    public void FaceRight()
+    {
+        Transform transform = gameObject.GetComponent<Transform>();
+        Vector2 localScale = transform.localScale;
+        if (localScale.x < 0.0f) // Change to Face Right
+        {
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
+    }
+
 
     public List<State> m_states;
     public State m_activeState;
