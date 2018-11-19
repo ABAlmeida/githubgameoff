@@ -26,22 +26,7 @@ public class RunningState : State
 
     public override void onUpdate()
     {
-        float moveX = Input.GetAxis("Horizontal");
-
-        if (Math.Abs(moveX) > 0.7f)
-        {
-            Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-            Vector2 Velocity = rigidbody2D.velocity;
-            if (moveX > 0)
-            {
-                Velocity.x = m_playerScript.Running_Speed;
-            }
-            else if (moveX < 0)
-            {
-                Velocity.x = m_playerScript.Running_Speed * -1;
-            }
-            rigidbody2D.velocity = Velocity;
-        }
+        m_playerScript.Run();
 
         m_playerScript.IsWalking();
         m_playerScript.IsJumping();

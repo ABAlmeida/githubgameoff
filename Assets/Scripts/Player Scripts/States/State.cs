@@ -16,7 +16,8 @@ public enum StateType
     eWallSlide = 9,
     eClimbing = 10,
     eWallJumping = 11,
-    eUncontrollable = 12
+    eUncontrollable = 12,
+    eLanding = 13
 }
 
 public class State

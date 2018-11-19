@@ -12,7 +12,7 @@ public class FallingState : State
     {
         base.onStart();
         m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale;
-        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Fall");
+        m_playerScript.gameObject.GetComponent<Animator>().Play("Player_StartFall");
     }
 
     public override void onUpdate()

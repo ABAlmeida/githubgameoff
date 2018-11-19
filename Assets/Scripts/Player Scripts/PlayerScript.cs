@@ -21,6 +21,7 @@ public class PlayerScript : MonoBehaviour
         m_states.Add(new ClimbingState(this));
         m_states.Add(new WallJumpingState(this));
         m_states.Add(new UncontrollableState(this));
+        m_states.Add(new LandingState(this));
 
         m_activeState = getState(StateType.eFalling);
 
@@ -274,7 +275,7 @@ public class PlayerScript : MonoBehaviour
                     }
                     break;
                 default:
-                    SetNextState(StateType.eIdle);
+                    SetNextState(StateType.eLanding);
                     break;
             }            
         }
@@ -361,6 +362,57 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void LoopFallAnimation()
+    {
+        gameObject.GetComponent<Animator>().Play("Player_Fall");
+    }
+
+    public void LandingFinished()
+    {
+        m_landingFinished = true;
+    }
+
+    public void Run()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+
+        if (Math.Abs(moveX) > 0.7f)
+        {
+            Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+            Vector2 Velocity = rigidbody2D.velocity;
+            if (moveX > 0)
+            {
+                Velocity.x = Running_Speed;
+            }
+            else if (moveX < 0)
+            {
+                Velocity.x = Running_Speed * -1;
+            }
+            rigidbody2D.velocity = Velocity;
+        }
+    }
+
+    public void Walk()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+
+        if (Math.Abs(moveX) <= 0.7f
+            && Math.Abs(moveX) > 0.0f)
+        {
+            Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+            Vector2 Velocity = rigidbody2D.velocity;
+            if (moveX > 0)
+            {
+                Velocity.x = Walking_Speed;
+            }
+            else if (moveX < 0)
+            {
+                Velocity.x = Walking_Speed * -1;
+            }
+            rigidbody2D.velocity = Velocity;
+            SetNextState(StateType.eWalking);
+        }
+    }
 
     public List<State> m_states;
     public State m_activeState;
@@ -378,6 +430,7 @@ public class PlayerScript : MonoBehaviour
     private StateType m_nextStateType;
     [NonSerialized] public int m_numberOfJumpsUsed = 0;
     [NonSerialized] public bool m_hasReleasedJump = true;
+    [NonSerialized] public bool m_landingFinished = false;
     public ParticleSystem m_particleSystemLeft;
     public ParticleSystem m_particleSystemRight;
 }

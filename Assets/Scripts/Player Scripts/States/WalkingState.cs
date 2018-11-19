@@ -18,24 +18,7 @@ public class WalkingState : State
 
     public override void onUpdate()
     {
-        float moveX = Input.GetAxis("Horizontal");
-
-        if (Math.Abs(moveX) <= 0.7f
-            && Math.Abs(moveX) > 0.0f)
-        {
-            Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-            Vector2 Velocity = rigidbody2D.velocity;
-            if (moveX > 0)
-            {
-                Velocity.x = m_playerScript.Walking_Speed;
-            }
-            else if (moveX < 0)
-            {
-                Velocity.x = m_playerScript.Walking_Speed * -1;
-            }
-            rigidbody2D.velocity = Velocity;
-            m_playerScript.SetNextState(StateType.eWalking);
-        }
+        m_playerScript.Walk();
 
         m_playerScript.IsRunning();
         m_playerScript.IsJumping();
