@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour
         m_states.Add(new UncontrollableState(this));
         m_states.Add(new LandingState(this));
 
-        m_activeState = getState(StateType.eFalling);
+        m_activeState = getState(StateType.eRespawn);
 
         m_nextStateType = StateType.eNone;
     }
@@ -151,7 +151,7 @@ public class PlayerScript : MonoBehaviour
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.left,
-                                                         collider2D.bounds.extents.x + 0.2f,
+                                                         collider2D.bounds.extents.x + 0.05f,
                                                         LayerMask.GetMask("Environment"));
 
         if (isLeftWall)
@@ -168,7 +168,7 @@ public class PlayerScript : MonoBehaviour
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isRightWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.right,
-                                                         collider2D.bounds.extents.x + 0.2f,
+                                                         collider2D.bounds.extents.x + 0.05f,
                                                         LayerMask.GetMask("Environment"));
 
         if (isRightWall)
@@ -279,6 +279,11 @@ public class PlayerScript : MonoBehaviour
                     break;
             }            
         }
+    }
+
+    public void FinishedSpawning()
+    {
+        SetNextState(StateType.eIdle);
     }
 
     public void AerialMove()
@@ -417,6 +422,7 @@ public class PlayerScript : MonoBehaviour
     public List<State> m_states;
     public State m_activeState;
 
+    public Vector2 Spawn_Location = new Vector2(0.0f, 0.0f);
     public float Running_Speed = 6.0f;
     public float Walking_Speed = 2.0f;
     public float Jump_Force = 20.0f;
