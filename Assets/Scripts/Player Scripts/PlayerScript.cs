@@ -179,6 +179,42 @@ public class PlayerScript : MonoBehaviour
         return false;
     }
 
+    public bool CanClimbUpRightWall()
+    {
+
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isRightWall = Physics2D.Raycast(new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + 0.01f),
+                                                        Vector2.right,
+                                                         collider2D.bounds.extents.x + 0.1f,
+                                                        LayerMask.GetMask("Environment"));
+
+        if (isRightWall)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool CanClimbUpLeftWall()
+    {
+
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftWall = Physics2D.Raycast(new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + 0.01f),
+                                                        Vector2.left,
+                                                         collider2D.bounds.extents.x + 0.1f,
+                                                        LayerMask.GetMask("Environment"));
+
+        if (isLeftWall)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public bool IsOnWall()
     {
         if ( (IsOnLeftWall() || IsOnRightWall()))
