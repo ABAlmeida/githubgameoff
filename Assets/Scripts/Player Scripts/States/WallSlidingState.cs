@@ -7,13 +7,20 @@ public class WallSlidingState : State
     public WallSlidingState(PlayerScript playerScript) : base(StateType.eWallSlide)
     {
         m_playerScript = playerScript;
+
     }
     public override void onStart()
     {
         base.onStart();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_WallCling");
 
-        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale;
+        Rigidbody2D rb2d = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
+        rb2d.gravityScale = m_playerScript.Fall_Scale;
+
+        BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
+        m_currentHitBox = box2d.size;
+        box2d.size = m_playerScript.Wall_Hit_Box;
+
         if (m_playerScript.IsOnLeftWall())
         {
             m_playerScript.m_particleSystemLeft.Play();
@@ -51,7 +58,11 @@ public class WallSlidingState : State
         m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
         m_playerScript.m_particleSystemLeft.Stop();
         m_playerScript.m_particleSystemRight.Stop();
+
+        BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
+        box2d.size = m_currentHitBox;
     }
 
     private PlayerScript m_playerScript;
+    private Vector2 m_currentHitBox;
 }

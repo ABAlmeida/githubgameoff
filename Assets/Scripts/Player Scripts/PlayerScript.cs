@@ -468,6 +468,8 @@ public class PlayerScript : MonoBehaviour
     public Vector2 Wall_Jump_Force = new Vector2(200.0f, 20.0f);
     public float Climb_Speed = 0.3f;
     public float Fall_Scale = 2.0f;
+    public Vector2 Wall_Hit_Box = new Vector2(2.0f, 2.0f);
+    public Vector2 Fall_Hit_Box = new Vector2(2.0f, 2.0f);
 
     private StateType m_nextStateType;
     [NonSerialized] public int m_numberOfJumpsUsed = 0;
