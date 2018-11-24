@@ -11,8 +11,10 @@ public class FallingState : State
     public override void onStart()
     {
         base.onStart();
-        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = m_playerScript.Fall_Scale;
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_StartFall");
+        Rigidbody2D rg2d = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
+        rg2d.gravityScale = m_playerScript.Fall_Scale;
+        m_playerScript.m_startFallPosition = rg2d.position;
 
         BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
         m_currentHitBox = box2d.size;
@@ -38,20 +40,6 @@ public class FallingState : State
     {
         base.onFinish();
         m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
-
-        if (m_playerScript.IsGrounded())
-        {
-            var iv = m_playerScript.m_particleSystemLeft.inheritVelocity;
-            iv.enabled = false;
-            iv = m_playerScript.m_particleSystemRight.inheritVelocity;
-            iv.enabled = false;
-            m_playerScript.m_particleSystemLeft.Emit(20);
-            m_playerScript.m_particleSystemRight.Emit(20);
-            iv = m_playerScript.m_particleSystemLeft.inheritVelocity;
-            iv.enabled = true;
-            iv = m_playerScript.m_particleSystemRight.inheritVelocity;
-            iv.enabled = true;
-        }
 
         BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
         box2d.size = m_currentHitBox;

@@ -26,7 +26,15 @@ public class ClimbingState : State
 
         if (m_playerScript.IsGrapplingWall())
         {
-            if (Climb > 0.0f)
+            if (Climb > 0.0f
+                && ((m_playerScript.CanClimbUpLeftWall() && m_playerScript.IsOnLeftWall())
+                    || (m_playerScript.CanClimbUpRightWall() && m_playerScript.IsOnRightWall())))
+            {
+                m_playerScript.SetNextState(StateType.eClimbUpLedge);
+            }
+            else if (Climb > 0.0f
+                && ((!m_playerScript.CanClimbUpLeftWall() && m_playerScript.IsOnLeftWall())
+                    || (!m_playerScript.CanClimbUpRightWall() && m_playerScript.IsOnRightWall())))
             {
                 velocity.y = m_playerScript.Climb_Speed;
             }

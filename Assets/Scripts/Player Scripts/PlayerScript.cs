@@ -22,6 +22,7 @@ public class PlayerScript : MonoBehaviour
         m_states.Add(new WallJumpingState(this));
         m_states.Add(new UncontrollableState(this));
         m_states.Add(new LandingState(this));
+        m_states.Add(new ClimbUpLedgeState(this));
 
         m_activeState = getState(StateType.eRespawn);
 
@@ -104,6 +105,7 @@ public class PlayerScript : MonoBehaviour
             case StateType.eIdle:
             case StateType.eWalking:
             case StateType.eRunning:
+            case StateType.eLanding:
                 return true;
             case StateType.eJumping:
             case StateType.eFalling:
@@ -128,16 +130,21 @@ public class PlayerScript : MonoBehaviour
     public bool IsGrounded()
     {
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
-        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x, rigidbody2D.position.y - collider2D.bounds.extents.y),
-                                                        -Vector2.up,
-                                                        0.1f,
-                                                        LayerMask.GetMask("Environment"));
-        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x, rigidbody2D.position.y - collider2D.bounds.extents.y), 
-                                                        -Vector2.up, 
-                                                        0.1f, 
-                                                        LayerMask.GetMask("Environment"));
-        if (isLeftGrounded || isRightGrounded)
+        //BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        //RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+        //                                                -Vector2.up,
+        //                                                0.1f,
+        //                                                LayerMask.GetMask("Environment"));
+        //RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y), 
+        //                                                -Vector2.up, 
+        //                                                0.1f, 
+        //                                                LayerMask.GetMask("Environment"));
+        //if (isLeftGrounded || isRightGrounded)
+        //{
+        //    return true;
+        //}
+
+        if (rigidbody2D.velocity.y == 0.0f)
         {
             return true;
         }
@@ -299,6 +306,7 @@ public class PlayerScript : MonoBehaviour
             switch (m_activeState.getStateType())
             {
                 case StateType.eJumping:
+                case StateType.eWallJumping:
                 case StateType.eRunning:
                 case StateType.eWalking:
                 case StateType.eIdle:
@@ -475,6 +483,7 @@ public class PlayerScript : MonoBehaviour
     [NonSerialized] public int m_numberOfJumpsUsed = 0;
     [NonSerialized] public bool m_hasReleasedJump = true;
     [NonSerialized] public bool m_landingFinished = false;
+    [NonSerialized] public Vector2 m_startFallPosition;
     public ParticleSystem m_particleSystemLeft;
     public ParticleSystem m_particleSystemRight;
 }

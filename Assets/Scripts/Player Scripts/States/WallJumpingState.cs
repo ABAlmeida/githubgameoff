@@ -27,8 +27,6 @@ public class WallJumpingState : State
     {
         m_playerScript.AerialMove();
 
-        m_playerScript.Falling();
-
         Vector2 velocity = m_playerScript.gameObject.GetComponent<Rigidbody2D>().velocity;
 
         if ((m_playerScript.IsOnLeftWall() && velocity.x < 0.0f)
@@ -36,8 +34,13 @@ public class WallJumpingState : State
         {
             m_playerScript.SetNextState(StateType.eWallSlide);
         }
+
+        m_playerScript.Falling();
     }
-    public override void onFinish() { base.onFinish(); }
+    public override void onFinish()
+    {
+        base.onFinish();
+    }
 
     private PlayerScript m_playerScript;
 }

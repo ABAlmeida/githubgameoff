@@ -14,7 +14,13 @@ public class Ghost : MonoBehaviour
         m_ghostObjects = GameObject.FindGameObjectsWithTag("Ghost");
         m_realObjects = GameObject.FindGameObjectsWithTag("Real");
 
-        SetActiveOnArray(m_ghostObjects, false);
+        SpriteRenderer sr;
+        foreach (GameObject _gameObject in m_ghostObjects)
+        {
+            _gameObject.SetActive(false);
+            sr = _gameObject.GetComponent<SpriteRenderer>();
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
+        }
     }
 	
 	// Update is called once per frame

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fade : MonoBehaviour
 {
     public float Seconds_To_Fade = 1.0f;
-    float secondsPassed;
+    float secondsPassed = 0.0f;
     bool fadingIn;
     bool fadingOut;
 
@@ -29,24 +29,26 @@ public class Fade : MonoBehaviour
             {
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
                 fadingIn = false;
+                secondsPassed = 1.0f;
             }
         }
 
         if (fadingOut == true)
         {
             SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-            secondsPassed += Time.deltaTime;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (1.0f - secondsPassed));
+            secondsPassed -= Time.deltaTime;
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, secondsPassed);
 
-            if (secondsPassed >= 0.2f)
+            if (secondsPassed <= 0.8f)
             {
                 setPhysicsActive(false);
             }
 
-            if (secondsPassed >= 1.0f)
+            if (secondsPassed <= 0.0f)
             {
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
                 fadingOut = false;
+                secondsPassed = 0.0f;
                 gameObject.SetActive(false);
             }
         }
@@ -54,24 +56,16 @@ public class Fade : MonoBehaviour
 
     public void FadeIn()
     {
-        secondsPassed = 0.0f;
         fadingIn = true;
         fadingOut = false;
 
         setPhysicsActive(true);
-
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0 );
     }
 
     public void FadeOut()
     {
-        secondsPassed = 0.0f;
         fadingOut = true;
         fadingIn = false;
-
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 255);
     }
 
     public void setPhysicsActive(bool value)
