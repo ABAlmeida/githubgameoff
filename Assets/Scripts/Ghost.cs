@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
+    public FadeFog fadeFog;
     private bool m_isActive = false;
     private GameObject[] m_ghostObjects;
     private GameObject[] m_realObjects;
@@ -34,6 +35,11 @@ public class Ghost : MonoBehaviour
             SetFadeOnArray(m_ghostObjects, true);
             SetFadeOnArray(m_realObjects, false);
 
+            if (fadeFog)
+            {
+                fadeFog.FadeIn();
+            }
+
             m_isActive = true;
         }
 
@@ -42,6 +48,11 @@ public class Ghost : MonoBehaviour
         {
             SetFadeOnArray(m_ghostObjects, false);
             SetFadeOnArray(m_realObjects, true);
+
+            if (fadeFog)
+            {
+                fadeFog.FadeOut();
+            }
 
             m_isActive = false;
         }

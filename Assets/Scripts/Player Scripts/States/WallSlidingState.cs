@@ -25,7 +25,7 @@ public class WallSlidingState : State
         {
             m_playerScript.m_particleSystemLeft.Play();
         }
-        else
+        else if (m_playerScript.IsOnRightWall())
         {
             m_playerScript.m_particleSystemRight.Play();
         }
@@ -41,7 +41,7 @@ public class WallSlidingState : State
         {
             m_playerScript.FaceLeft();
         }
-        else
+        else if (m_playerScript.IsOnRightWall())
         {
             m_playerScript.FaceRight();
         }

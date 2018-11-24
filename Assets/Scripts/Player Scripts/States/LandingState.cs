@@ -16,14 +16,14 @@ public class LandingState : State
         Rigidbody2D rg2d = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         float distanceFell = m_playerScript.m_startFallPosition.y - rg2d.position.y;
         float particlesToEmit = 20;
-        if (distanceFell >= 0.8f)
+        if (distanceFell >= 0.5f)
         {
             m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Landing");
         }
         else
         {
             m_playerScript.SetNextState(StateType.eIdle);
-            particlesToEmit *= (distanceFell / 0.8f);
+            particlesToEmit *= (distanceFell / 0.5f);
         }
 
         ParticleSystem.InheritVelocityModule iv = m_playerScript.m_particleSystemLeft.inheritVelocity;

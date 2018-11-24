@@ -6,14 +6,13 @@ public class Fade : MonoBehaviour
 {
     public float Seconds_To_Fade = 1.0f;
     float secondsPassed = 0.0f;
-    bool fadingIn;
-    bool fadingOut;
+    bool fadingIn = false;
+    bool fadingOut = false;
 
 	// Use this for initialization
 	void Start ()
     {
-        fadingIn = false;
-        fadingOut = false;
+
 	}
 	
 	// Update is called once per frame

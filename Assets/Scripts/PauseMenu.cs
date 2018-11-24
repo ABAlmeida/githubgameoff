@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    public GameObject Pause_Menu;
 
 	// Use this for initialization
 	void Start ()
@@ -15,8 +16,9 @@ public class PauseMenu : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		if (m_pauseReleased
-            && Input.GetAxis("Pause") > 0.0f)
+        bool paused = Input.GetButtonDown("Pause");
+
+		if (paused)
         {
             if (m_isPaused)
             {
@@ -26,28 +28,28 @@ public class PauseMenu : MonoBehaviour
             {
                 PauseGame();
             }
-
-            m_pauseReleased = false;
-        }
-
-        if (Input.GetAxis("Pause") == 0.0f)
-        {
-            m_pauseReleased = true;
         }
 	}
 
-    void PauseGame()
+    public void PauseGame()
     {
+        Debug.Log("Game Paused");
         Time.timeScale = 0.0f;
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        Pause_Menu.SetActive(true);
         m_isPaused = true;
     }
 
-    void UnPauseGame()
+    public void UnPauseGame()
     {
+        Debug.Log("Game Unpaused");
         Time.timeScale = 1.0f;
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        Pause_Menu.SetActive(false);
         m_isPaused = false;
+    }
+
+    public void QuitGame()
+    {
+        SceneManager.LoadScene("TestMenu");
     }
 
     private bool m_isPaused;
