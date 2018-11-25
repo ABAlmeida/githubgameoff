@@ -5,8 +5,7 @@ using UnityEngine;
 public class FadeFog : MonoBehaviour
 {
     public GameObject Camera_With_Fog;
-    public float Seconds_To_Fade = 1.0f;
-    float secondsPassed = 1.0f;
+    float secondsPassed = Ghost.Seconds_To_Fade;
     bool fadingIn;
     bool fadingOut;
 
@@ -24,7 +23,8 @@ public class FadeFog : MonoBehaviour
         {
             UB.D2FogsPE fogPE = Camera_With_Fog.GetComponent<UB.D2FogsPE>();
             secondsPassed -= Time.deltaTime;
-            fogPE.Color = new Color(secondsPassed, secondsPassed, secondsPassed, 0.5f);
+            float percent = 1 / Ghost.Seconds_To_Fade;
+            fogPE.Color = new Color(secondsPassed * percent, secondsPassed * percent, secondsPassed * percent, 0.5f);
 
             if (secondsPassed <= 0.0f)
             {
@@ -38,13 +38,14 @@ public class FadeFog : MonoBehaviour
         {
             UB.D2FogsPE fogPE = Camera_With_Fog.GetComponent<UB.D2FogsPE>();
             secondsPassed += Time.deltaTime;
-            fogPE.Color = new Color(secondsPassed, secondsPassed, secondsPassed, 0.5f);
+            float percent = 1 / Ghost.Seconds_To_Fade;
+            fogPE.Color = new Color(secondsPassed * percent, secondsPassed * percent, secondsPassed * percent, 0.5f);
 
-            if (secondsPassed >= 1.0f)
+            if (secondsPassed >= Ghost.Seconds_To_Fade)
             {
                 fogPE.Color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
                 fadingOut = false;
-                secondsPassed = 1.0f;
+                secondsPassed = Ghost.Seconds_To_Fade;
             }
         }
     }

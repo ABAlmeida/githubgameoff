@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -37,6 +38,10 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0.0f;
         Pause_Menu.SetActive(true);
         m_isPaused = true;
+
+        EventSystem es = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+        es.SetSelectedGameObject(null);
+        es.SetSelectedGameObject(es.firstSelectedGameObject);
     }
 
     public void UnPauseGame()

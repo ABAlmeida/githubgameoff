@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
+    static public float Seconds_To_Fade = 0.5f;
     public FadeFog fadeFog;
     private bool m_isActive = false;
     private GameObject[] m_ghostObjects;

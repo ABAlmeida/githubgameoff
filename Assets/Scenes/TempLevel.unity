@@ -126,7 +126,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4116453677179866, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4116453677179866, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_LocalPosition.z
@@ -162,7 +162,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4116453677179866, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1772433764119296, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_IsActive
@@ -410,7 +410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcc4bc7f08ee864ba3725623b90a955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds_To_Fade: 1
 --- !u!1001 &245523700
 Prefab:
   m_ObjectHideFlags: 0
@@ -620,7 +619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcc4bc7f08ee864ba3725623b90a955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds_To_Fade: 1
 --- !u!1 &539891150
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,7 +1242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcc4bc7f08ee864ba3725623b90a955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds_To_Fade: 1
 --- !u!1 &1209394567 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1772433764119296, guid: 236533deb754c2f419fa36af1077b703,
@@ -1261,7 +1258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcc4bc7f08ee864ba3725623b90a955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds_To_Fade: 1
 --- !u!1001 &1212918155
 Prefab:
   m_ObjectHideFlags: 0
@@ -1620,7 +1616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcc4bc7f08ee864ba3725623b90a955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds_To_Fade: 1
 --- !u!1 &1637603987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,7 +1750,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4116453677179866, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4116453677179866, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1791,7 +1786,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4116453677179866, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1772433764119296, guid: 236533deb754c2f419fa36af1077b703, type: 2}
       propertyPath: m_IsActive
@@ -2113,7 +2108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcc4bc7f08ee864ba3725623b90a955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds_To_Fade: 1
 --- !u!1 &1928024452
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,7 +2350,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera_With_Fog: {fileID: 2117817472}
-  Seconds_To_Fade: 1
 --- !u!114 &2117817476
 MonoBehaviour:
   m_ObjectHideFlags: 0

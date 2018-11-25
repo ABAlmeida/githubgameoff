@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fade : MonoBehaviour
 {
-    public float Seconds_To_Fade = 1.0f;
     float secondsPassed = 0.0f;
     bool fadingIn = false;
     bool fadingOut = false;
@@ -22,13 +21,14 @@ public class Fade : MonoBehaviour
         {
             SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
             secondsPassed += Time.deltaTime;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, secondsPassed);
+            float percent = 1 / Ghost.Seconds_To_Fade;
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, secondsPassed * percent);
 
-            if (secondsPassed >= 1.0f)
+            if (secondsPassed >= Ghost.Seconds_To_Fade)
             {
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
                 fadingIn = false;
-                secondsPassed = 1.0f;
+                secondsPassed = Ghost.Seconds_To_Fade;
             }
         }
 
@@ -36,9 +36,10 @@ public class Fade : MonoBehaviour
         {
             SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
             secondsPassed -= Time.deltaTime;
+            float percent = 1 / Ghost.Seconds_To_Fade;
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, secondsPassed);
 
-            if (secondsPassed <= 0.8f)
+            if (percent <= 0.8f)
             {
                 setPhysicsActive(false);
             }
