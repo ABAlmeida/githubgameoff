@@ -7,6 +7,8 @@ TagManager:
   - Death Zone
   - Ghost
   - Real
+  - Collectible
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -50,6 +50,9 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1.0f;
         Pause_Menu.SetActive(false);
         m_isPaused = false;
+
+        //AudioManager audioManager = FindObjectOfType<AudioManager>();
+        //audioManager.Play(background_music_string);
     }
 
     public void QuitGame()
