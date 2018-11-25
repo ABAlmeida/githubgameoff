@@ -29,6 +29,8 @@ public class PlayerScript : MonoBehaviour
         m_nextStateType = StateType.eNone;
 
         m_audioManager = FindObjectOfType<AudioManager>();
+
+        m_collectibles = new List<GameObject>(GameObject.FindGameObjectsWithTag("Collectible"));
     }
 
     // Update is called once per frame
@@ -465,6 +467,16 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void PlayWalkSoundEffect()
+    {
+        m_audioManager.Play("footstep_walk");
+    }
+
+    public void PlayRunSoundEffect()
+    {
+        m_audioManager.Play("footstep_run");
+    }
+
     public List<State> m_states;
     public State m_activeState;
 
@@ -489,4 +501,5 @@ public class PlayerScript : MonoBehaviour
     [NonSerialized] public bool m_landingFinished = false;
     [NonSerialized] public Vector2 m_startFallPosition;
     [NonSerialized] public AudioManager m_audioManager;
+    [NonSerialized] public List<GameObject> m_collectibles;
 }

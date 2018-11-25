@@ -29,7 +29,10 @@ public class WalkingState : State
         }
         m_playerScript.IsIdle();
     }
-    public override void onFinish() { base.onFinish(); }
+    public override void onFinish()
+    {
+        base.onFinish();
+    }
 
     private PlayerScript m_playerScript;
 }

@@ -36,6 +36,8 @@ public class LandingState : State
         iv.enabled = true;
         iv = m_playerScript.m_particleSystemRight.inheritVelocity;
         iv.enabled = true;
+
+        m_playerScript.m_audioManager.Play("landing_on_ground");
     }
 
     public override void onUpdate()
