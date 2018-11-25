@@ -27,6 +27,8 @@ public class PlayerScript : MonoBehaviour
         m_activeState = getState(StateType.eRespawn);
 
         m_nextStateType = StateType.eNone;
+
+        m_audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -478,12 +480,13 @@ public class PlayerScript : MonoBehaviour
     public float Fall_Scale = 2.0f;
     public Vector2 Wall_Hit_Box = new Vector2(2.0f, 2.0f);
     public Vector2 Fall_Hit_Box = new Vector2(2.0f, 2.0f);
+    public ParticleSystem m_particleSystemLeft;
+    public ParticleSystem m_particleSystemRight;
 
     private StateType m_nextStateType;
     [NonSerialized] public int m_numberOfJumpsUsed = 0;
     [NonSerialized] public bool m_hasReleasedJump = true;
     [NonSerialized] public bool m_landingFinished = false;
     [NonSerialized] public Vector2 m_startFallPosition;
-    public ParticleSystem m_particleSystemLeft;
-    public ParticleSystem m_particleSystemRight;
+    [NonSerialized] public AudioManager m_audioManager;
 }

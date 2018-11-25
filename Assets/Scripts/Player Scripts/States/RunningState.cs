@@ -22,26 +22,39 @@ public class RunningState : State
             m_playerScript.m_particleSystemRight.Play();
         }
         m_playerScript.RefreshJumps();
+
+        m_playerScript.m_audioManager.Play("footstep_0");
     }
 
     public override void onUpdate()
     {
         m_playerScript.Run();
 
-        m_playerScript.IsWalking();
+        if ( m_playerScript.IsWalking() )
+        {
+            m_playerScript.m_audioManager.StopAfterComplete("footstep_0");
+        }
         m_playerScript.IsJumping();
         m_playerScript.Falling();
         if (m_playerScript.IsGrapplingWall())
         {
             m_playerScript.SetNextState(StateType.eGrapple);
         }
-        m_playerScript.IsIdle();
+        if ( m_playerScript.IsIdle() )
+        {
+            m_playerScript.m_audioManager.StopAfterComplete("footstep_0");
+        }
     }
     public override void onFinish()
     {
         base.onFinish();
         m_playerScript.m_particleSystemLeft.Stop();
         m_playerScript.m_particleSystemRight.Stop();
+
+        if (!m_playerScript.m_audioManager.IsPaused("footstep_0"))
+        {
+            m_playerScript.m_audioManager.StopAfterComplete("footstep_0");
+        }
     }
 
     private PlayerScript m_playerScript;
