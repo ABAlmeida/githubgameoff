@@ -134,24 +134,24 @@ public class PlayerScript : MonoBehaviour
     public bool IsGrounded()
     {
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-        //BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
-        //RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
-        //                                                -Vector2.up,
-        //                                                0.1f,
-        //                                                LayerMask.GetMask("Environment"));
-        //RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y), 
-        //                                                -Vector2.up, 
-        //                                                0.1f, 
-        //                                                LayerMask.GetMask("Environment"));
-        //if (isLeftGrounded || isRightGrounded)
-        //{
-        //    return true;
-        //}
-
-        if (rigidbody2D.velocity.y == 0.0f)
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+                                                        -Vector2.up,
+                                                        0.1f,
+                                                        LayerMask.GetMask("Environment"));
+        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y), 
+                                                        -Vector2.up, 
+                                                        0.1f, 
+                                                        LayerMask.GetMask("Environment"));
+        if (isLeftGrounded || isRightGrounded)
         {
             return true;
         }
+
+        //if (rigidbody2D.velocity.y == 0.0f)
+        //{
+        //    return true;
+        //}
 
         return false;
     }
@@ -293,13 +293,14 @@ public class PlayerScript : MonoBehaviour
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         Vector2 Velocity = rigidbody2D.velocity;
         if (!IsGrounded()
-            && Velocity.y < 0)
+            && Velocity.y <= 0)
         {
-            if (IsOnWall())
+            if (IsOnWall()
+                && Velocity.y < 0)
             {
                 SetNextState(StateType.eWallSlide);
             }
-            else
+            else if (m_activeState.getStateType() != StateType.eGrapple)
             {
                 SetNextState(StateType.eFalling);
             }
@@ -311,6 +312,11 @@ public class PlayerScript : MonoBehaviour
             {
                 case StateType.eJumping:
                 case StateType.eWallJumping:
+                    if (Velocity.y == 0)
+                    {
+                        SetNextState(StateType.eFalling);
+                    }
+                    break;
                 case StateType.eRunning:
                 case StateType.eWalking:
                 case StateType.eIdle:

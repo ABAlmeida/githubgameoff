@@ -49,7 +49,7 @@ public class GrapplingState : State
         {
             m_playerScript.FaceLeft();
         }
-        else
+        else if (m_playerScript.IsOnRightWall())
         {
             m_playerScript.FaceRight();
         }

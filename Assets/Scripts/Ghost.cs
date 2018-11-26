@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Ghost : MonoBehaviour
 {
@@ -15,13 +16,12 @@ public class Ghost : MonoBehaviour
     {
         m_ghostObjects = GameObject.FindGameObjectsWithTag("Ghost");
         m_realObjects = GameObject.FindGameObjectsWithTag("Real");
-
-        SpriteRenderer sr;
+        
         foreach (GameObject _gameObject in m_ghostObjects)
         {
             _gameObject.SetActive(false);
-            sr = _gameObject.GetComponent<SpriteRenderer>();
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
+            TilemapRenderer tmr = _gameObject.GetComponentInChildren<TilemapRenderer>();
+            tmr.material.color = new Color(tmr.material.color.r, tmr.material.color.g, tmr.material.color.b, 0.0f);
         }
     }
 	

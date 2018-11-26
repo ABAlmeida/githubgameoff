@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Fade : MonoBehaviour
 {
@@ -17,39 +18,47 @@ public class Fade : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		if (fadingIn == true)
+        if (fadingIn == true)
         {
-            SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+            TilemapRenderer tilemap = GetComponentInChildren<TilemapRenderer>();
+
             secondsPassed += Time.deltaTime;
             float percent = 1 / Ghost.Seconds_To_Fade;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, secondsPassed * percent);
+            Color color = tilemap.material.color;
+            color.a = secondsPassed * percent;
 
             if (secondsPassed >= Ghost.Seconds_To_Fade)
             {
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f);
+                color = new Color(color.r, color.g, color.b, 1.0f);
                 fadingIn = false;
                 secondsPassed = Ghost.Seconds_To_Fade;
             }
+
+            tilemap.material.color = color;
         }
 
         if (fadingOut == true)
         {
-            SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+            TilemapRenderer tilemap = GetComponentInChildren<TilemapRenderer>();
+
             secondsPassed -= Time.deltaTime;
             float percent = 1 / Ghost.Seconds_To_Fade;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, secondsPassed);
+            Color color = tilemap.material.color;
+            color.a = secondsPassed * percent;
+
+            if (secondsPassed <= 0.0f)
+            {
+                color = new Color(color.r, color.g, color.b, 0.0f);
+                fadingOut = false;
+                secondsPassed = 0.0f;
+                gameObject.SetActive(false);
+            }
+
+            tilemap.material.color = color;
 
             if (percent <= 0.8f)
             {
                 setPhysicsActive(false);
-            }
-
-            if (secondsPassed <= 0.0f)
-            {
-                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
-                fadingOut = false;
-                secondsPassed = 0.0f;
-                gameObject.SetActive(false);
             }
         }
     }

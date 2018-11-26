@@ -16,6 +16,8 @@ public class ClimbingState : State
         BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
         m_currentHitBox = box2d.size;
         box2d.size = m_playerScript.Wall_Hit_Box;
+        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2D.gravityScale = 0.0f;
     }
 
     public override void onUpdate()
@@ -73,6 +75,8 @@ public class ClimbingState : State
 
         BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
         box2d.size = m_currentHitBox;
+        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2D.gravityScale = 1.0f;
     }
 
     private PlayerScript m_playerScript;

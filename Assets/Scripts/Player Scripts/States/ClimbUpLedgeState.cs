@@ -14,7 +14,7 @@ public class ClimbUpLedgeState : State
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump 0");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Environment"));
 
-        if (m_playerScript.IsOnLeftWall())
+        if (m_playerScript.GetComponent<Transform>().localScale.x < 0.0f)
         {
             m_playerScript.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-50.0f, 100.0f));
         }
