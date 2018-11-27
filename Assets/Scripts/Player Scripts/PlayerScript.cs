@@ -156,6 +156,31 @@ public class PlayerScript : MonoBehaviour
         return false;
     }
 
+    public bool IsFullyGrounded()
+    {
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+                                                        -Vector2.up,
+                                                        0.1f,
+                                                        LayerMask.GetMask("Environment"));
+        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+                                                        -Vector2.up,
+                                                        0.1f,
+                                                        LayerMask.GetMask("Environment"));
+        if (isLeftGrounded && isRightGrounded)
+        {
+            return true;
+        }
+
+        //if (rigidbody2D.velocity.y == 0.0f)
+        //{
+        //    return true;
+        //}
+
+        return false;
+    }
+
     public bool IsOnLeftWall()
     {
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
@@ -329,6 +354,8 @@ public class PlayerScript : MonoBehaviour
                     }
                     break;
                 default:
+                    if ((IsOnWall() && IsFullyGrounded())
+                        || (IsGrounded() && !IsOnWall()))
                     SetNextState(StateType.eLanding);
                     break;
             }            
