@@ -6082,7 +6082,7 @@ Prefab:
     - target: {fileID: 114279964082296004, guid: 6d494a798cb7b674197316b34c604f6b,
         type: 2}
       propertyPath: Aerial_Mobility
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114279964082296004, guid: 6d494a798cb7b674197316b34c604f6b,
         type: 2}
@@ -6154,6 +6154,11 @@ Prefab:
     - target: {fileID: 1917384708754026, guid: 6d494a798cb7b674197316b34c604f6b, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 114279964082296004, guid: 6d494a798cb7b674197316b34c604f6b,
+        type: 2}
+      propertyPath: Fall_Scale
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d494a798cb7b674197316b34c604f6b, type: 2}
