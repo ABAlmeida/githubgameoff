@@ -22,6 +22,8 @@ public class RunningState : State
             m_playerScript.m_particleSystemRight.Play();
         }
         m_playerScript.RefreshJumps();
+
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     public override void onUpdate()

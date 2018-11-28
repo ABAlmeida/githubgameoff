@@ -21,7 +21,10 @@ public class Ghost : MonoBehaviour
         {
             _gameObject.SetActive(false);
             TilemapRenderer tmr = _gameObject.GetComponentInChildren<TilemapRenderer>();
-            tmr.material.color = new Color(tmr.material.color.r, tmr.material.color.g, tmr.material.color.b, 0.0f);
+            if (tmr)
+            {
+                tmr.material.color = new Color(tmr.material.color.r, tmr.material.color.g, tmr.material.color.b, 0.0f);
+            }
         }
     }
 	

@@ -38,6 +38,8 @@ public class LandingState : State
         iv.enabled = true;
 
         m_playerScript.m_audioManager.Play("landing_on_ground");
+
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     public override void onUpdate()

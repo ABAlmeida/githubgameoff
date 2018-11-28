@@ -31,6 +31,9 @@ public class PlayerScript : MonoBehaviour
         m_audioManager = FindObjectOfType<AudioManager>();
 
         m_collectibles = new List<GameObject>(GameObject.FindGameObjectsWithTag("Collectible"));
+
+        m_cameraZones = new List<GameObject>();
+        m_cameraZones.Add(GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>().Current_Camera_Zone);
     }
 
     // Update is called once per frame
@@ -318,10 +321,11 @@ public class PlayerScript : MonoBehaviour
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         Vector2 Velocity = rigidbody2D.velocity;
         if (!IsGrounded()
-            && Velocity.y <= 0)
+            && m_activeState.getStateType() != StateType.eClimbUpLedge)
         {
             if (IsOnWall()
-                && Velocity.y < 0)
+                && (m_activeState.getStateType() != StateType.eGrapple
+                    && m_activeState.getStateType() != StateType.eClimbing))
             {
                 SetNextState(StateType.eWallSlide);
             }
@@ -474,6 +478,7 @@ public class PlayerScript : MonoBehaviour
             {
                 Velocity.x = Running_Speed * -1;
             }
+            Velocity.y += 0.2f;
             rigidbody2D.velocity = Velocity;
         }
     }
@@ -495,6 +500,7 @@ public class PlayerScript : MonoBehaviour
             {
                 Velocity.x = Walking_Speed * -1;
             }
+            Velocity.y += 0.2f;
             rigidbody2D.velocity = Velocity;
             SetNextState(StateType.eWalking);
         }
@@ -510,10 +516,59 @@ public class PlayerScript : MonoBehaviour
         m_audioManager.Play("footstep_run");
     }
 
+    public Vector2 GetSpawnLocation()
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("MainCamera");
+
+        return go.GetComponent<FollowPlayer>().Current_Camera_Zone.GetComponent<Spawn_Position>().Zone_Spawn_Position;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Camera")
+        {
+            bool zone_found = false;
+
+            foreach (GameObject go in m_cameraZones)
+            {
+                if (go == collision.gameObject)
+                {
+                    zone_found = true;
+                }
+            }
+
+            if (!zone_found)
+            {
+                m_cameraZones.Add(collision.gameObject);
+            }
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Camera")
+        {
+            for (int i = 0; i < m_cameraZones.Count; ++i)
+            {
+                if (m_cameraZones[i] == collision.gameObject)
+                {
+                    m_cameraZones.Remove(m_cameraZones[i]);
+                    break;
+                }
+            }
+
+            if (m_cameraZones.Count == 1)
+            {
+                GameObject go = GameObject.FindGameObjectWithTag("MainCamera");
+
+                go.GetComponent<FollowPlayer>().Current_Camera_Zone = m_cameraZones[0];
+            }
+        }
+    }
+
     public List<State> m_states;
     public State m_activeState;
 
-    public Vector2 Spawn_Location = new Vector2(0.0f, 0.0f);
     public float Running_Speed = 6.0f;
     public float Walking_Speed = 2.0f;
     public float Jump_Force = 20.0f;
@@ -522,6 +577,14 @@ public class PlayerScript : MonoBehaviour
     public int Number_Of_Jumps = 2;
     public Vector2 Wall_Jump_Force = new Vector2(200.0f, 20.0f);
     public float Climb_Speed = 0.3f;
+    public float Nightmare_Running_Speed = 6.0f;
+    public float Nightmare_Walking_Speed = 2.0f;
+    public float Nightmare_Jump_Force = 20.0f;
+    public float Nightmare_Aerial_Mobility = 5;
+    public float Nightmare_Dead_Time = 2.0f;
+    public int Nightmare_Number_Of_Jumps = 2;
+    public Vector2 Nightmare_Wall_Jump_Force = new Vector2(200.0f, 20.0f);
+    public float Nightmare_Climb_Speed = 0.3f;
     public float Fall_Scale = 2.0f;
     public Vector2 Wall_Hit_Box = new Vector2(2.0f, 2.0f);
     public Vector2 Fall_Hit_Box = new Vector2(2.0f, 2.0f);
@@ -535,4 +598,6 @@ public class PlayerScript : MonoBehaviour
     [NonSerialized] public Vector2 m_startFallPosition;
     [NonSerialized] public AudioManager m_audioManager;
     [NonSerialized] public List<GameObject> m_collectibles;
+
+    private List<GameObject> m_cameraZones;
 }

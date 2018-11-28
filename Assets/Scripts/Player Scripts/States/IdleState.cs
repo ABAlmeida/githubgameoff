@@ -13,6 +13,7 @@ public class IdleState : State
         base.onStart();
         m_playerScript.RefreshJumps();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Idle 0");
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     public override void onUpdate()

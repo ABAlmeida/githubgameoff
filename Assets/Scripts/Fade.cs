@@ -81,6 +81,7 @@ public class Fade : MonoBehaviour
     {
         BoxCollider2D bc2d = gameObject.GetComponent<BoxCollider2D>();
         EdgeCollider2D ec2d = gameObject.GetComponent<EdgeCollider2D>();
+        TilemapCollider2D tmc2d = gameObject.GetComponent<TilemapCollider2D>();
 
         if (bc2d)
         {
@@ -90,6 +91,11 @@ public class Fade : MonoBehaviour
         if (ec2d)
         {
             ec2d.enabled = value;
+        }
+
+        if (tmc2d)
+        {
+            tmc2d.enabled = value;
         }
     }
 }

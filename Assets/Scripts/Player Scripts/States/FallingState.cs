@@ -19,6 +19,8 @@ public class FallingState : State
         BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
         m_currentHitBox = box2d.size;
         box2d.size = m_playerScript.Fall_Hit_Box;
+        
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.0f;
     }
 
     public override void onUpdate()
@@ -43,6 +45,7 @@ public class FallingState : State
 
         BoxCollider2D box2d = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
         box2d.size = m_currentHitBox;
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     private PlayerScript m_playerScript;

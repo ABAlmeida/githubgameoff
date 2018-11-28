@@ -14,9 +14,14 @@ public class DeadState : State
         m_deadTime = 0.0f;
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Death");
 
+        m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+
         foreach (GameObject _gameObject in m_playerScript.m_collectibles)
         {
-            _gameObject.GetComponent<Collectible>().Reset();
+            if (_gameObject)
+            {
+                _gameObject.GetComponent<Collectible>().Reset();
+            }
         }
     }
     public override void onUpdate()

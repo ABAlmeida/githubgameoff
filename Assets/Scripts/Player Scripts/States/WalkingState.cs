@@ -14,6 +14,7 @@ public class WalkingState : State
         base.onStart();
         m_playerScript.RefreshJumps();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Walk");
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     public override void onUpdate()

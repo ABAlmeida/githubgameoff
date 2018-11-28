@@ -16,11 +16,11 @@ public class ClimbUpLedgeState : State
 
         if (m_playerScript.GetComponent<Transform>().localScale.x < 0.0f)
         {
-            m_playerScript.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-50.0f, 100.0f));
+            m_playerScript.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-20.0f, 90.0f));
         }
         else
         {
-            m_playerScript.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(50.0f, 100.0f));
+            m_playerScript.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(20.0f, 90.0f));
         }
     }
 

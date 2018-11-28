@@ -22,6 +22,8 @@ public class WallJumpingState : State
         rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
         rigidbody2D.AddForce(WallJump);
         m_playerScript.m_hasReleasedJump = false;
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.0f;
+
     }
     public override void onUpdate()
     {
@@ -40,6 +42,7 @@ public class WallJumpingState : State
     public override void onFinish()
     {
         base.onFinish();
+        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     private PlayerScript m_playerScript;
