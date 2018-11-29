@@ -162,6 +162,46 @@ public class PlayerScript : MonoBehaviour
         return false;
     }
 
+    public bool IsTooCloseToGround()
+    {
+        float distance = 0.0001f;
+
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2D.position = new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + distance);
+        if (distance != 0.0f)
+        {
+            return true;
+        }
+
+
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+                                                        -Vector2.up,
+                                                        distance,
+                                                        LayerMask.GetMask("Environment"));
+        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+                                                        -Vector2.up,
+                                                        distance,
+                                                        LayerMask.GetMask("Environment"));
+        if (isLeftGrounded)
+        {
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + distance - isRightGrounded.distance);
+            return true;
+        }
+        else if (isLeftGrounded || isRightGrounded)
+        {
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + distance - isRightGrounded.distance);
+            return true;
+        }
+
+        //if (rigidbody2D.velocity.y == 0.0f)
+        //{
+        //    return true;
+        //}
+
+        return false;
+    }
+
     public bool IsFullyGrounded()
     {
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
@@ -483,7 +523,6 @@ public class PlayerScript : MonoBehaviour
             {
                 Velocity.x = GetRunningSpeed() * -1;
             }
-            Velocity.y += 0.2f;
             rigidbody2D.velocity = Velocity;
         }
     }
@@ -505,7 +544,6 @@ public class PlayerScript : MonoBehaviour
             {
                 Velocity.x = GetWalkingSpeed() * -1;
             }
-            Velocity.y += 0.2f;
             rigidbody2D.velocity = Velocity;
             SetNextState(StateType.eWalking);
         }
@@ -641,6 +679,48 @@ public class PlayerScript : MonoBehaviour
         {
             return Climb_Speed;
         }
+    }
+
+    public void IsTooCloseToTheWall()
+    {
+        IsCloseToLeftWall();
+        IsCloseToRightWall();
+    }
+
+    public bool IsCloseToLeftWall()
+    {
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
+                                                        Vector2.left,
+                                                         collider2D.bounds.extents.x + 0.01f,
+                                                        LayerMask.GetMask("Environment"));
+
+        if (isLeftWall)
+        {
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x + 0.01f, rigidbody2D.position.y);
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsCloseToRightWall()
+    {
+        Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
+        RaycastHit2D isRightWall = Physics2D.Raycast(rigidbody2D.position,
+                                                        Vector2.right,
+                                                         collider2D.bounds.extents.x + 0.01f,
+                                                        LayerMask.GetMask("Environment"));
+
+        if (isRightWall)
+        {
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x - 0.01f, rigidbody2D.position.y);
+            return true;
+        }
+
+        return false;
     }
 
     public List<State> m_states;

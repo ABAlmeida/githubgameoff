@@ -18,19 +18,12 @@ public class ClimbingState : State
         box2d.size = m_playerScript.Wall_Hit_Box;
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         rigidbody2D.gravityScale = 0.0f;
-
-        if (IsCloseToLeftWall())
-        {
-            rigidbody2D.position = new Vector2(rigidbody2D.position.x + 0.025f, rigidbody2D.position.y);
-        }
-        else if (IsCloseToRightWall())
-        {
-            rigidbody2D.position = new Vector2(rigidbody2D.position.x - 0.025f, rigidbody2D.position.y);
-        }
     }
 
     public override void onUpdate()
     {
+        m_playerScript.IsTooCloseToTheWall();
+
         if (m_playerScript.m_timeSpentClimbing > m_playerScript.Climb_time)
         {
             m_playerScript.SetNextState(StateType.eWallSlide);
@@ -95,40 +88,6 @@ public class ClimbingState : State
         box2d.size = m_currentHitBox;
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         rigidbody2D.gravityScale = 1.0f;
-    }
-
-    public bool IsCloseToLeftWall()
-    {
-        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-        BoxCollider2D collider2D = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
-        RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
-                                                        Vector2.left,
-                                                         collider2D.bounds.extents.x + 0.024f,
-                                                        LayerMask.GetMask("Environment"));
-
-        if (isLeftWall)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool IsCloseToRightWall()
-    {
-        Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-        BoxCollider2D collider2D = m_playerScript.gameObject.GetComponent<BoxCollider2D>();
-        RaycastHit2D isRightWall = Physics2D.Raycast(rigidbody2D.position,
-                                                        Vector2.right,
-                                                         collider2D.bounds.extents.x + 0.024f,
-                                                        LayerMask.GetMask("Environment"));
-
-        if (isRightWall)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private PlayerScript m_playerScript;

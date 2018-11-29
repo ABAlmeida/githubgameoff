@@ -30,6 +30,8 @@ public class GrapplingState : State
     }
     public override void onUpdate()
     {
+        m_playerScript.IsTooCloseToTheWall();
+
         if (m_playerScript.m_timeSpentClimbing > m_playerScript.Climb_time)
         {
             m_playerScript.SetNextState(StateType.eWallSlide);

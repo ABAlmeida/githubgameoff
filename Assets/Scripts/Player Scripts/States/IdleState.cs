@@ -23,6 +23,8 @@ public class IdleState : State
     {
         base.onUpdate();
 
+        m_playerScript.IsTooCloseToGround();
+
         m_playerScript.IsWalking();
         m_playerScript.IsRunning();
         m_playerScript.Falling();

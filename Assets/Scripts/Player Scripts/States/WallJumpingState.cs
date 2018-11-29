@@ -10,6 +10,8 @@ public class WallJumpingState : State
     }
     public override void onStart()
     {
+        m_playerScript.IsTooCloseToTheWall();
+
         base.onStart();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump 0");
 
