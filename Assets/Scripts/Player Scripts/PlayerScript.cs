@@ -34,6 +34,8 @@ public class PlayerScript : MonoBehaviour
 
         m_cameraZones = new List<GameObject>();
         m_cameraZones.Add(GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>().Current_Camera_Zone);
+
+        m_timeSpentClimbing = 0.0f;
     }
 
     // Update is called once per frame
@@ -132,6 +134,7 @@ public class PlayerScript : MonoBehaviour
     public void RefreshJumps()
     {
         m_numberOfJumpsUsed = 0;
+        m_timeSpentClimbing = 0.0f;
     }
 
     public bool IsGrounded()
@@ -267,6 +270,7 @@ public class PlayerScript : MonoBehaviour
     public bool IsGrapplingWall()
     {
         if (IsOnWall()
+            && m_timeSpentClimbing < Climb_time
             && Input.GetAxis("Grapple") > 0.0f)
         {
             return true;
@@ -378,18 +382,19 @@ public class PlayerScript : MonoBehaviour
 
         if (moveX > 0)
         {
-            rigidbody2D.AddForce(new Vector2(Aerial_Mobility, 0));
+            rigidbody2D.AddForce(new Vector2(GetAerialMobility(), 0));
         }
         else if (moveX < 0)
         {
-            rigidbody2D.AddForce(new Vector2(Aerial_Mobility * -1, 0));
+            rigidbody2D.AddForce(new Vector2(GetAerialMobility() * -1, 0));
         }
     }
 
     public bool IsClimbing()
     {
         float Climb = Input.GetAxis("Climb");
-        if (Climb != 0.0f)
+        if (Climb != 0.0f
+            && m_timeSpentClimbing < Climb_time)
         {
             return true;
         }
@@ -472,11 +477,11 @@ public class PlayerScript : MonoBehaviour
             Vector2 Velocity = rigidbody2D.velocity;
             if (moveX > 0)
             {
-                Velocity.x = Running_Speed;
+                Velocity.x = GetRunningSpeed();
             }
             else if (moveX < 0)
             {
-                Velocity.x = Running_Speed * -1;
+                Velocity.x = GetRunningSpeed() * -1;
             }
             Velocity.y += 0.2f;
             rigidbody2D.velocity = Velocity;
@@ -494,11 +499,11 @@ public class PlayerScript : MonoBehaviour
             Vector2 Velocity = rigidbody2D.velocity;
             if (moveX > 0)
             {
-                Velocity.x = Walking_Speed;
+                Velocity.x = GetWalkingSpeed();
             }
             else if (moveX < 0)
             {
-                Velocity.x = Walking_Speed * -1;
+                Velocity.x = GetWalkingSpeed() * -1;
             }
             Velocity.y += 0.2f;
             rigidbody2D.velocity = Velocity;
@@ -566,11 +571,84 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public float GetRunningSpeed()
+    {
+        if (gameObject.GetComponent<Ghost>().m_isActive)
+        {
+            return Nightmare_Running_Speed;
+        }
+        else
+        {
+            return Running_Speed;
+        }
+    }
+
+    public float GetWalkingSpeed()
+    {
+        if (gameObject.GetComponent<Ghost>().m_isActive)
+        {
+            return Nightmare_Walking_Speed;
+        }
+        else
+        {
+            return Walking_Speed;
+        }
+    }
+
+    public float GetJumpForce()
+    {
+        if (gameObject.GetComponent<Ghost>().m_isActive)
+        {
+            return Nightmare_Jump_Force;
+        }
+        else
+        {
+            return Jump_Force;
+        }
+    }
+
+    public float GetAerialMobility()
+    {
+        if (gameObject.GetComponent<Ghost>().m_isActive)
+        {
+            return Nightmare_Aerial_Mobility;
+        }
+        else
+        {
+            return Aerial_Mobility;
+        }
+    }
+
+    public Vector2 GetWallJumpForce()
+    {
+        if (gameObject.GetComponent<Ghost>().m_isActive)
+        {
+            return Nightmare_Wall_Jump_Force;
+        }
+        else
+        {
+            return Wall_Jump_Force;
+        }
+    }
+
+    public float GetClimbSpeed()
+    {
+        if (gameObject.GetComponent<Ghost>().m_isActive)
+        {
+            return Nightmare_Climb_Speed;
+        }
+        else
+        {
+            return Climb_Speed;
+        }
+    }
+
     public List<State> m_states;
     public State m_activeState;
 
     public float Running_Speed = 6.0f;
     public float Walking_Speed = 2.0f;
+    public float Climb_time = 0.5f;
     public float Jump_Force = 20.0f;
     public float Aerial_Mobility = 5;
     public float Dead_Time = 2.0f;
@@ -581,8 +659,6 @@ public class PlayerScript : MonoBehaviour
     public float Nightmare_Walking_Speed = 2.0f;
     public float Nightmare_Jump_Force = 20.0f;
     public float Nightmare_Aerial_Mobility = 5;
-    public float Nightmare_Dead_Time = 2.0f;
-    public int Nightmare_Number_Of_Jumps = 2;
     public Vector2 Nightmare_Wall_Jump_Force = new Vector2(200.0f, 20.0f);
     public float Nightmare_Climb_Speed = 0.3f;
     public float Fall_Scale = 2.0f;
@@ -598,6 +674,7 @@ public class PlayerScript : MonoBehaviour
     [NonSerialized] public Vector2 m_startFallPosition;
     [NonSerialized] public AudioManager m_audioManager;
     [NonSerialized] public List<GameObject> m_collectibles;
+    [NonSerialized] public float m_timeSpentClimbing;
 
     private List<GameObject> m_cameraZones;
 }

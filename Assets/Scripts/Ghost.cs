@@ -7,7 +7,7 @@ public class Ghost : MonoBehaviour
 {
     static public float Seconds_To_Fade = 0.5f;
     public FadeFog fadeFog;
-    private bool m_isActive = false;
+    public bool m_isActive = false;
     private GameObject[] m_ghostObjects;
     private GameObject[] m_realObjects;
 

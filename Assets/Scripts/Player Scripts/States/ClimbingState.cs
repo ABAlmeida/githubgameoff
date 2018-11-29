@@ -31,6 +31,15 @@ public class ClimbingState : State
 
     public override void onUpdate()
     {
+        if (m_playerScript.m_timeSpentClimbing > m_playerScript.Climb_time)
+        {
+            m_playerScript.SetNextState(StateType.eWallSlide);
+        }
+        else
+        {
+            m_playerScript.m_timeSpentClimbing += Time.deltaTime;
+        }
+
         float Climb = Input.GetAxis("Climb");
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         Vector2 velocity = rigidbody2D.velocity;
@@ -47,11 +56,11 @@ public class ClimbingState : State
                 && ((!m_playerScript.CanClimbUpLeftWall() && m_playerScript.IsOnLeftWall())
                     || (!m_playerScript.CanClimbUpRightWall() && m_playerScript.IsOnRightWall())))
             {
-                velocity.y = m_playerScript.Climb_Speed;
+                velocity.y = m_playerScript.GetClimbSpeed();
             }
             else if (Climb < 0.0f)
             {
-                velocity.y = -m_playerScript.Climb_Speed;
+                velocity.y = -m_playerScript.GetClimbSpeed();
             }
             else
             {
