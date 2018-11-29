@@ -13,7 +13,10 @@ public class IdleState : State
         base.onStart();
         m_playerScript.RefreshJumps();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Idle 0");
-        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
+        Rigidbody2D rg2d = m_playerScript.GetComponent<Rigidbody2D>();
+        Vector2 velocity = rg2d.velocity;
+        velocity.x = 0.0f;
+        rg2d.velocity = velocity;
     }
 
     public override void onUpdate()

@@ -43,6 +43,7 @@ public class GrapplingState : State
         else
         {
             m_playerScript.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+            m_playerScript.SetNextState(StateType.eWallSlide);
         }
 
         if (m_playerScript.IsOnLeftWall())
