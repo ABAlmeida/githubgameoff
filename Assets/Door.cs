@@ -26,14 +26,17 @@ public class Door : MonoBehaviour
             List<GameObject> collectibles = collision.gameObject.GetComponent<PlayerScript>().m_collectibles;
             for (int i = 0; i < collectibles.Count; ++i)
             {
-                Collectible collectible = collectibles[i].GetComponent<Collectible>();
-                if (collectible.m_isCollected
-                    && !collectible.m_isUsed)
+                if (collectibles[i])
                 {
-                    collectible.m_isUsed = true;
-                    m_isOpen = true;
-                    GetComponent<BoxCollider2D>().enabled = false;
-                    break;
+                    Collectible collectible = collectibles[i].GetComponent<Collectible>();
+                    if (collectible.m_isCollected
+                        && !collectible.m_isUsed)
+                    {
+                        collectible.m_isUsed = true;
+                        m_isOpen = true;
+                        GetComponent<BoxCollider2D>().enabled = false;
+                        break;
+                    }
                 }
             }            
         }

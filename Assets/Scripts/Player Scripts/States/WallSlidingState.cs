@@ -33,6 +33,8 @@ public class WallSlidingState : State
     }
     public override void onUpdate()
     {
+        m_playerScript.IsTooCloseToTheWall();
+
         if (m_playerScript.IsGrapplingWall())
         {
             m_playerScript.SetNextState(StateType.eGrapple);

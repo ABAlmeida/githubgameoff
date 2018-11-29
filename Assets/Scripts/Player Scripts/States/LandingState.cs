@@ -46,6 +46,8 @@ public class LandingState : State
     {
         base.onUpdate();
 
+        m_playerScript.IsTooCloseToGround();
+
         m_playerScript.Walk();
         m_playerScript.Run();
         m_playerScript.IsJumping();

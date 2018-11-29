@@ -10,11 +10,13 @@ public class WallJumpingState : State
     }
     public override void onStart()
     {
+        m_playerScript.IsTooCloseToTheWall();
+
         base.onStart();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Jump 0");
 
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
-        Vector2 WallJump = new Vector2(m_playerScript.Wall_Jump_Force.x, m_playerScript.Wall_Jump_Force.y);
+        Vector2 WallJump = m_playerScript.GetWallJumpForce();
         if (m_playerScript.IsOnRightWall())
         {
             WallJump.x *= -1.0f;

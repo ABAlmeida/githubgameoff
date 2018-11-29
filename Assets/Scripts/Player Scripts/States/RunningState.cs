@@ -30,6 +30,8 @@ public class RunningState : State
     {
         m_playerScript.Run();
 
+        m_playerScript.IsTooCloseToGround();
+
         m_playerScript.IsWalking();
         m_playerScript.IsJumping();
         m_playerScript.Falling();

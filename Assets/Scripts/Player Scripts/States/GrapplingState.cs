@@ -30,6 +30,17 @@ public class GrapplingState : State
     }
     public override void onUpdate()
     {
+        m_playerScript.IsTooCloseToTheWall();
+
+        if (m_playerScript.m_timeSpentClimbing > m_playerScript.Climb_time)
+        {
+            m_playerScript.SetNextState(StateType.eWallSlide);
+        }
+        else
+        {
+            m_playerScript.m_timeSpentClimbing += Time.deltaTime;
+        }
+
         if (m_playerScript.IsGrapplingWall())
         {
             Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
