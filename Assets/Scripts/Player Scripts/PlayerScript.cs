@@ -689,16 +689,18 @@ public class PlayerScript : MonoBehaviour
 
     public bool IsCloseToLeftWall()
     {
+        float distance = 0.02f;
+
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isLeftWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.left,
-                                                         collider2D.bounds.extents.x + 0.01f,
+                                                         collider2D.bounds.extents.x + distance,
                                                         LayerMask.GetMask("Environment"));
 
         if (isLeftWall)
         {
-            rigidbody2D.position = new Vector2(rigidbody2D.position.x + 0.01f, rigidbody2D.position.y);
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x + distance, rigidbody2D.position.y);
             return true;
         }
 
@@ -707,16 +709,18 @@ public class PlayerScript : MonoBehaviour
 
     public bool IsCloseToRightWall()
     {
+        float distance = 0.02f;
+
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isRightWall = Physics2D.Raycast(rigidbody2D.position,
                                                         Vector2.right,
-                                                         collider2D.bounds.extents.x + 0.01f,
+                                                         collider2D.bounds.extents.x + distance,
                                                         LayerMask.GetMask("Environment"));
 
         if (isRightWall)
         {
-            rigidbody2D.position = new Vector2(rigidbody2D.position.x - 0.01f, rigidbody2D.position.y);
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x - distance, rigidbody2D.position.y);
             return true;
         }
 

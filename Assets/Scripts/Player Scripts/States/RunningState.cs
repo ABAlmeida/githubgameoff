@@ -24,6 +24,8 @@ public class RunningState : State
         m_playerScript.RefreshJumps();
 
         m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
+
+        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
     }
 
     public override void onUpdate()
@@ -46,6 +48,7 @@ public class RunningState : State
         base.onFinish();
         m_playerScript.m_particleSystemLeft.Stop();
         m_playerScript.m_particleSystemRight.Stop();
+        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
     }
 
     private PlayerScript m_playerScript;
