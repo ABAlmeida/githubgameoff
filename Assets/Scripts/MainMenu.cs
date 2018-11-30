@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene("TempLevel");
+        SceneManager.LoadScene("Intro");
     }
 
     public void OptionsButton()

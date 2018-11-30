@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TempLevel.unity
     guid: 2ddd067d67aaab74b83486bc145dfb04
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: b0dc6396924dd5d49900f114673c06a0
+  - enabled: 1
+    path: Assets/Scenes/Outro.unity
+    guid: c073aa0ecf7a93d488173783bdaec7cf
   m_configObjects: {}
