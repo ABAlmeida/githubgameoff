@@ -16,13 +16,10 @@ public class TutorialFade : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        currentFadeTime = 0.0f;
         player = GameObject.FindGameObjectWithTag("Player");
         playerTf = player.GetComponent<Transform>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         tf = gameObject.GetComponent<Transform>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
-        fadingIn = true;
 	}
 	
 	// Update is called once per frame
@@ -48,9 +45,18 @@ public class TutorialFade : MonoBehaviour
                 gameObject.SetActive(false);
             }
 
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1.0f - (currentFadeTime / fadeTime));
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, currentFadeTime / fadeTime);
         }
 	}
+
+    public void FadeIn()
+    {
+        gameObject.SetActive(true);
+        fadingIn = true;
+        currentFadeTime = 0.0f;
+        sr = gameObject.GetComponent<SpriteRenderer>();
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.0f);
+    }
 
     public void FadeOut()
     {

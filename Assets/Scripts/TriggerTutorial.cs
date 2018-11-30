@@ -8,9 +8,12 @@ public class TriggerTutorial : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            TutorialFade tt = gameObject.GetComponentInChildren<TutorialFade>();
+            TutorialFade[] tt = gameObject.GetComponentsInChildren<TutorialFade>(true);
 
-            tt.gameObject.SetActive(true);
+            if (tt[0])
+            {
+                tt[0].FadeIn();
+            }
         }
     }
 
@@ -20,7 +23,10 @@ public class TriggerTutorial : MonoBehaviour
         {
             TutorialFade tt = gameObject.GetComponentInChildren<TutorialFade>();
 
-            tt.FadeOut();
+            if (tt)
+            {
+                tt.FadeOut();
+            }
         }
     }
 }
