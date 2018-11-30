@@ -17,6 +17,7 @@ public class IdleState : State
         Vector2 velocity = rg2d.velocity;
         velocity.x = 0.0f;
         rg2d.velocity = velocity;
+        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
     }
 
     public override void onUpdate()
@@ -34,7 +35,11 @@ public class IdleState : State
             m_playerScript.SetNextState(StateType.eGrapple);
         }
     }
-    public override void onFinish() { base.onFinish(); }
+    public override void onFinish()
+    {
+        base.onFinish();
+        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+    }
 
     private PlayerScript m_playerScript;
 }
