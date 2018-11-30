@@ -13,17 +13,16 @@ public class WalkingState : State
     {
         base.onStart();
 
-        m_playerScript.IsTooCloseToGround();
-
         m_playerScript.RefreshJumps();
         m_playerScript.gameObject.GetComponent<Animator>().Play("Player_Walk");
-        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
-        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
     }
 
     public override void onUpdate()
     {
         m_playerScript.Walk();
+
+        m_playerScript.IsTooCloseToGround();
 
         m_playerScript.IsRunning();
         m_playerScript.IsJumping();

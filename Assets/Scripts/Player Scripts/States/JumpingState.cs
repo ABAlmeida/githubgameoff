@@ -18,7 +18,6 @@ public class JumpingState : State
         rigidbody2D.AddForce(new Vector2(0.0f, m_playerScript.GetJumpForce()));
         m_playerScript.m_hasReleasedJump = false;
         m_playerScript.m_numberOfJumpsUsed += 1;
-        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.0f;
     }
     public override void onUpdate()
     {
@@ -36,7 +35,6 @@ public class JumpingState : State
     public override void onFinish()
     {
         base.onFinish();
-        m_playerScript.GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
     }
 
     private PlayerScript m_playerScript;
