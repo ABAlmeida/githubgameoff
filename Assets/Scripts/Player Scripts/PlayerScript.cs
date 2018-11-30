@@ -139,15 +139,17 @@ public class PlayerScript : MonoBehaviour
 
     public bool IsGrounded()
     {
+        float distance = 0.05f;
+
         Rigidbody2D rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
         RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
                                                         -Vector2.up,
-                                                        0.1f,
+                                                        distance,
                                                         LayerMask.GetMask("Environment"));
         RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y), 
-                                                        -Vector2.up, 
-                                                        0.1f, 
+                                                        -Vector2.up,
+                                                        distance, 
                                                         LayerMask.GetMask("Environment"));
         if (isLeftGrounded || isRightGrounded)
         {
@@ -175,22 +177,13 @@ public class PlayerScript : MonoBehaviour
 
 
         BoxCollider2D collider2D = gameObject.GetComponent<BoxCollider2D>();
-        RaycastHit2D isLeftGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x - collider2D.bounds.extents.x - 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
+        RaycastHit2D isGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x, rigidbody2D.position.y - collider2D.bounds.extents.y),
                                                         -Vector2.up,
                                                         distance,
                                                         LayerMask.GetMask("Environment"));
-        RaycastHit2D isRightGrounded = Physics2D.Raycast(new Vector2(rigidbody2D.position.x + collider2D.bounds.extents.x + 0.01f, rigidbody2D.position.y - collider2D.bounds.extents.y),
-                                                        -Vector2.up,
-                                                        distance,
-                                                        LayerMask.GetMask("Environment"));
-        if (isLeftGrounded)
+        if (isGrounded)
         {
-            rigidbody2D.position = new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + distance - isRightGrounded.distance);
-            return true;
-        }
-        else if (isLeftGrounded || isRightGrounded)
-        {
-            rigidbody2D.position = new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + distance - isRightGrounded.distance);
+            rigidbody2D.position = new Vector2(rigidbody2D.position.x, rigidbody2D.position.y + distance - isGrounded.distance);
             return true;
         }
 

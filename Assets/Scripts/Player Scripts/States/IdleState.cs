@@ -17,7 +17,7 @@ public class IdleState : State
         Vector2 velocity = rg2d.velocity;
         velocity.x = 0.0f;
         rg2d.velocity = velocity;
-        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+        m_playerScript.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
     }
 
     public override void onUpdate()
