@@ -426,7 +426,9 @@ public class PlayerScript : MonoBehaviour
     public bool IsClimbing()
     {
         float Climb = Input.GetAxis("Climb");
-        if (Climb != 0.0f
+        if ((Climb != 0.0f
+            || Input.GetButton("ClimbUp")
+            || Input.GetButton("ClimbDown"))
             && m_timeSpentClimbing < Climb_time)
         {
             return true;
