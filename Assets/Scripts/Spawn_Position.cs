@@ -17,7 +17,8 @@ public class Spawn_Position : MonoBehaviour
             if (collectibles[i])
             {
                 Collectible collectible = collectibles[i].GetComponent<Collectible>();
-                if (collectible.m_isCollected
+                if (GameObject.FindGameObjectWithTag("MainCamera").GetComponent<FollowPlayer>().Current_Camera_Zone.GetComponent<Spawn_Position>().Change_Spawn_With_Key
+                    && collectible.m_isCollected
                     && !collectible.m_isUsed)
                 {
                     return Key_Spawn_Position;

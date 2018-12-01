@@ -12,7 +12,9 @@ public class RespawnState : State
     {
         base.onStart();
         m_playerScript.RefreshJumps();
-        m_playerScript.transform.SetPositionAndRotation(new Vector3(m_playerScript.GetSpawnLocation().x, m_playerScript.GetSpawnLocation().y), new Quaternion());
+        Vector2 spawn = m_playerScript.GetSpawnLocation();
+
+        m_playerScript.transform.SetPositionAndRotation(new Vector3(spawn.x, spawn.y), new Quaternion());
     }
     public override void onUpdate()
     {
