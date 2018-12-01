@@ -15,6 +15,10 @@ public class JumpingState : State
 
         Rigidbody2D rigidbody2D = m_playerScript.gameObject.GetComponent<Rigidbody2D>();
         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0.0f);
+        if (m_playerScript.IsOnWall())
+        {
+            rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
+        }
         rigidbody2D.AddForce(new Vector2(0.0f, m_playerScript.GetJumpForce()));
         m_playerScript.m_hasReleasedJump = false;
         m_playerScript.m_numberOfJumpsUsed += 1;
