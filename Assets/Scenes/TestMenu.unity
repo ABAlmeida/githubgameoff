@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 132311185}
   - component: {fileID: 132311184}
   - component: {fileID: 132311183}
+  - component: {fileID: 132311187}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -330,6 +331,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &132311187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 132311182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e94d3bb32c5dc45bb5207ed1a1ad15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background_music_string: background_music
 --- !u!1 &605246632
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +717,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5432fb9bef5248f4980c166ee363b555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1133075863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1133075865}
+  - component: {fileID: 1133075864}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1133075864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1133075863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bd8ca37f09b7847b122645004af16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: {fileID: 0}
+  sounds:
+  - name: footstep_run
+    clip: {fileID: 8300000, guid: f54a7e8aabfc8436b965149db8156132, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+    isPaused: 0
+  - name: footstep_walk
+    clip: {fileID: 8300000, guid: f54a7e8aabfc8436b965149db8156132, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 0.5
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+    isPaused: 0
+  - name: background_music
+    clip: {fileID: 8300000, guid: f74396619b7154fa5a38a1959cfa67ae, type: 3}
+    volume: 0.6
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+    isPaused: 0
+  - name: landing_on_ground
+    clip: {fileID: 8300000, guid: 3a06a27039e144e5c853a93d408fd63a, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+    isPaused: 0
+  - name: ingame_background
+    clip: {fileID: 8300000, guid: b04c9b2938c3f8742a0bccb0b3009b9f, type: 3}
+    volume: 0.6
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+    isPaused: 0
+--- !u!4 &1133075865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1133075863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.7582029, y: 0.011016287, z: 11.822141}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1182619974
 GameObject:
   m_ObjectHideFlags: 0

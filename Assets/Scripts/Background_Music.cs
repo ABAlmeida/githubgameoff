@@ -11,7 +11,8 @@ public class Background_Music : MonoBehaviour
 	void Start ()
     {
         m_audioManager = FindObjectOfType<AudioManager>();
-        m_audioManager.Play(background_music_string);
+        m_audioManager.Stop(background_music_string);
+        m_audioManager.Play("ingame_background");
 	}
 	
 	// Update is called once per frame

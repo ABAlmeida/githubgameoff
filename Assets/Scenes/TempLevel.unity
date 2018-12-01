@@ -2680,7 +2680,6 @@ GameObject:
   m_Component:
   - component: {fileID: 624990626}
   - component: {fileID: 624990625}
-  - component: {fileID: 624990624}
   - component: {fileID: 624990623}
   m_Layer: 0
   m_Name: CameraZone 8
@@ -2703,18 +2702,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 34.134, y: 9.31}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &624990624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 624990622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &624990625
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12194,7 +12181,6 @@ GameObject:
   m_Component:
   - component: {fileID: 913252885}
   - component: {fileID: 913252884}
-  - component: {fileID: 913252883}
   - component: {fileID: 913252882}
   m_Layer: 0
   m_Name: CameraZone 6
@@ -12217,18 +12203,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 19.074, y: 6.908}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &913252883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 913252881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &913252884
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12329,7 +12303,6 @@ GameObject:
   m_Component:
   - component: {fileID: 931574828}
   - component: {fileID: 931574827}
-  - component: {fileID: 931574826}
   - component: {fileID: 931574825}
   m_Layer: 0
   m_Name: CameraZone 7
@@ -12352,18 +12325,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 23.458, y: 7.704}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &931574826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 931574824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &931574827
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13382,6 +13343,16 @@ MonoBehaviour:
   - name: landing_on_ground
     clip: {fileID: 8300000, guid: 3a06a27039e144e5c853a93d408fd63a, type: 3}
     volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+    isPaused: 0
+  - name: ingame_background
+    clip: {fileID: 8300000, guid: b04c9b2938c3f8742a0bccb0b3009b9f, type: 3}
+    volume: 0.6
     volumeVariance: 0
     pitch: 1
     pitchVariance: 0
@@ -28938,7 +28909,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1285114581}
   - component: {fileID: 1285114580}
-  - component: {fileID: 1285114579}
   - component: {fileID: 1285114578}
   m_Layer: 0
   m_Name: CameraZone 4
@@ -28961,18 +28931,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 11.118, y: 4.507}
   Key_Spawn_Position: {x: 16.3, y: 4.5}
   Change_Spawn_With_Key: 1
---- !u!114 &1285114579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1285114577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &1285114580
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29025,7 +28983,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1312587938}
   - component: {fileID: 1312587937}
-  - component: {fileID: 1312587936}
   - component: {fileID: 1312587935}
   m_Layer: 0
   m_Name: CameraZone 3
@@ -29048,18 +29005,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 11.15, y: 2.105}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &1312587936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1312587934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &1312587937
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -36007,7 +35952,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1468307275}
   - component: {fileID: 1468307274}
-  - component: {fileID: 1468307276}
   - component: {fileID: 1468307277}
   m_Layer: 0
   m_Name: CameraZone
@@ -36054,18 +35998,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1468307276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1468307273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!114 &1468307277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36089,7 +36021,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1483729420}
   - component: {fileID: 1483729419}
-  - component: {fileID: 1483729418}
   - component: {fileID: 1483729417}
   m_Layer: 0
   m_Name: CameraZone 2
@@ -36112,18 +36043,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 6.2, y: -0.5}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &1483729418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1483729416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &1483729419
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -36604,7 +36523,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1765164766}
   - component: {fileID: 1765164765}
-  - component: {fileID: 1765164764}
   - component: {fileID: 1765164763}
   m_Layer: 0
   m_Name: CameraZone 9
@@ -36627,18 +36545,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 28.84, y: 9.906}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &1765164764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1765164762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &1765164765
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -37069,7 +36975,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1793941669}
   - component: {fileID: 1793941668}
-  - component: {fileID: 1793941667}
   - component: {fileID: 1793941666}
   m_Layer: 0
   m_Name: CameraZone 10
@@ -37092,18 +36997,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 36.608, y: 9.307}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &1793941667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1793941665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &1793941668
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -38084,7 +37977,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1840554644}
   - component: {fileID: 1840554643}
-  - component: {fileID: 1840554642}
   - component: {fileID: 1840554641}
   m_Layer: 0
   m_Name: CameraZone 5
@@ -38107,18 +37999,6 @@ MonoBehaviour:
   Zone_Spawn_Position: {x: 11.126, y: 6.906}
   Key_Spawn_Position: {x: 0, y: 0}
   Change_Spawn_With_Key: 0
---- !u!114 &1840554642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1840554640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fee59284080126479fbcfb2df77491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background_music_string: background_music
 --- !u!61 &1840554643
 BoxCollider2D:
   m_ObjectHideFlags: 0
