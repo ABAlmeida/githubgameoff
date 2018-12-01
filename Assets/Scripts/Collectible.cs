@@ -6,7 +6,9 @@ public class Collectible : MonoBehaviour
 {
     public bool m_isCollected;
     public bool m_isUsed;
+    private float m_isUsedTime;
     public GameObject Player_Object;
+    public GameObject Door_Object;
     private Vector2 m_spawnLocation;
     private Transform m_transform;
     private Transform m_target;
@@ -39,14 +41,32 @@ public class Collectible : MonoBehaviour
                 point.x += m_offset;
             }
 
-            Vector3 delta = point - m_transform.position;
-            Vector3 destination = point + delta;
-            transform.position = Vector3.SmoothDamp(transform.position, destination, ref m_velocity, dampTime);
-
             if (m_isUsed)
             {
-                Destroy(gameObject);
+                if (m_isUsedTime > dampTime)
+                {
+                    Door_Object.GetComponent<Door>().Open();
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    m_isUsedTime += Time.deltaTime;
+                    Vector3 delta = Door_Object.transform.position - m_transform.position;
+                    Vector3 destination = Door_Object.transform.position + delta;
+                    transform.position = Vector3.SmoothDamp(transform.position, destination, ref m_velocity, dampTime);
+                }
             }
+            else
+            {
+                Vector3 delta = point - m_transform.position;
+                Vector3 destination = point + delta;
+                transform.position = Vector3.SmoothDamp(transform.position, destination, ref m_velocity, dampTime);
+            }
+        }
+        else
+        {
+            float difference = Mathf.Sin(Time.time * 3.0f) * 0.01f;
+            transform.position = new Vector3(m_spawnLocation.x, m_spawnLocation.y + difference, 0.0f);
         }
 	}
 
@@ -66,5 +86,12 @@ public class Collectible : MonoBehaviour
             m_transform.position = m_spawnLocation;
             m_isCollected = false;
         }
+    }
+
+    public void Open(GameObject door)
+    {
+        Door_Object = door;
+        m_isUsed = true;
+        m_isUsedTime = 0.0f;
     }
 }

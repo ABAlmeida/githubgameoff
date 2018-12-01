@@ -556,7 +556,7 @@ public class PlayerScript : MonoBehaviour
     {
         GameObject go = GameObject.FindGameObjectWithTag("MainCamera");
 
-        return go.GetComponent<FollowPlayer>().Current_Camera_Zone.GetComponent<Spawn_Position>().Zone_Spawn_Position;
+        return go.GetComponent<FollowPlayer>().Current_Camera_Zone.GetComponent<Spawn_Position>().GetSpawnPosition();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

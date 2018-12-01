@@ -25,7 +25,7 @@ public class TutorialFade : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        tf.position = new Vector3(playerTf.position.x, playerTf.position.y + 0.3f, playerTf.position.z);
+        tf.position = new Vector3(playerTf.position.x, playerTf.position.y + 0.5f, playerTf.position.z);
 
         if (fadingIn)
         {

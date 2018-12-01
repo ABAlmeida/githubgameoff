@@ -22,9 +22,9 @@ public class FinishZone : MonoBehaviour
         {
             timePassed += Time.deltaTime;
 
-            if (timePassed > 5.0f)
+            if (timePassed > 2.0f)
             {
-                SceneManager.LoadScene("TestMenu");
+                SceneManager.LoadScene("Outro");
             }
         }
 	}
